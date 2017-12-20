@@ -6,7 +6,7 @@ import static javafx.application.Platform.exit;
 
 public class Database {
 
-    public Database(String dbName, ArrayList<?> blocks) {
+    Database(String dbName, ArrayList<?> blocks) {
         // TODO : Implement
     }
 
