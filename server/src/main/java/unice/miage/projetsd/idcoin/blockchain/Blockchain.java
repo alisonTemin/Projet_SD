@@ -38,19 +38,35 @@ public class Blockchain {
         return transactions;
     }
 
+    /**
+     * Add a transaction
+     */
     public void addTransaction(){
 
     }
 
+    /**
+     * Add a block
+     */
     public void addBlock(){
 
     }
 
+    /**
+     * Check if block is good comparing to previous
+     * @param newBlock new block
+     * @param previousBlock previous block
+     */
     public void checkBlock(Block newBlock, Block previousBlock){
 
     }
 
-    public void checkTransaction(Transaction transaction){
-
+    /**
+     * Check if transaction is valid (in transactionsDb)
+     * @param transaction transaction to check
+     */
+    public boolean checkTransaction(Transaction transaction){
+        // TODO : implement
+        return false;
     }
 }
