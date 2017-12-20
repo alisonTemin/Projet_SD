@@ -14,12 +14,13 @@ public class Blockchain {
      * Blockchain constructor
      * @param dbName Database name
      */
+    @SuppressWarnings("unchecked")
     public Blockchain(String dbName){
          this.blocksDb = new Database(dbName, new ArrayList<Block>());
          this.transactionsDb = new Database(dbName, new ArrayList<Transaction>());
 
-         this.blocks = (ArrayList<Block>) this.blocksDb.read(DatabaseItems.Blocks);
-         this.transactions = (ArrayList<Transaction>) this.transactionsDb.read(DatabaseItems.Transactions);
+        this.blocks = (ArrayList<Block>) this.blocksDb.read(DatabaseItems.Blocks);
+        this.transactions = (ArrayList<Transaction>) this.transactionsDb.read(DatabaseItems.Transactions);
     }
 
     /**
