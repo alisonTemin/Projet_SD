@@ -1,5 +1,8 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
+/**
+ *
+ */
 class Transaction {
 
     private int id;
