@@ -2,8 +2,6 @@ package unice.miage.projetsd.idcoin.blockchain;
 
 import java.util.ArrayList;
 
-import static javafx.application.Platform.exit;
-
 public class Database {
 
     Database(String dbName, ArrayList<?> blocks) {
@@ -17,7 +15,7 @@ public class Database {
             case Blocks:
                 return new ArrayList<Block>();
             default:
-                exit();
+                System.exit(0);
 
         }
         return null;
