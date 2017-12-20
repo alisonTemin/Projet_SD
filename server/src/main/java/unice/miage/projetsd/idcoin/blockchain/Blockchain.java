@@ -21,4 +21,36 @@ public class Blockchain {
          this.blocks = (ArrayList<Block>) this.blocksDb.read(DatabaseItems.Blocks);
          this.transactions = (ArrayList<Transaction>) this.transactionsDb.read(DatabaseItems.Transactions);
     }
+
+    /**
+     * Get all blocks
+     * @return Blocks list
+     */
+    public ArrayList<Block> getBlocks() {
+        return blocks;
+    }
+
+    /**
+     * Get all transactions
+     * @return Transactions list
+     */
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void addTransaction(){
+
+    }
+
+    public void addBlock(){
+
+    }
+
+    public void checkBlock(Block newBlock, Block previousBlock){
+
+    }
+
+    public void checkTransaction(Transaction transaction){
+
+    }
 }
