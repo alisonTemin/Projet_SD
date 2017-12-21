@@ -1,5 +1,6 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
@@ -147,7 +148,28 @@ public class Blockchain {
                 throw new Error("Transaction already in chain");
         }
 
-        // TODO : Verify if all input transactions are unspent in the blockchain
+        if(this.getUnspentTransactionsForAddress()){
+            throw new Error("There is unspent transactions");
+        }
+
         return false;
+    }
+
+    /**
+     * Check if there is an input for an output
+     *
+     * @return yes or no
+     */
+    private Boolean getUnspentTransactionsForAddress() {
+        // Create a list of all transactions outputs found for an address (or all).
+        ArrayList<Input> inputs = new ArrayList<>();
+        ArrayList<Output> outputs = new ArrayList<>();
+
+        for(Transaction tx : this.transactions){
+            outputs.addAll(tx.getOutputs());
+            inputs.addAll(tx.getInputs());
+        }
+
+        return inputs.size() == outputs.size();
     }
 }
