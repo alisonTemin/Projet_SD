@@ -1,5 +1,7 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
+import com.sun.istack.internal.NotNull;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +17,7 @@ class Transaction {
     private String type;
     private ArrayList<Input> inputs;
     private ArrayList<Output> outputs;
+    private int feePerTransaction = 1;
 
     Transaction(AtomicLong id, byte[] hash, String type){
         this.id = id;
@@ -59,26 +62,39 @@ class Transaction {
      */
     public boolean check(){
         // Check if the transaction hash is correct
-        Boolean isTransactionValid = Arrays.equals(this.hash, this.toHash());
+        Boolean isTransactionValid = Arrays.equals(this.toHash(), this.hash);
+
+        Boolean isValidSignature = false;
+        Boolean isSumInputGreater = false;
+        Boolean isEnoughFee = false;
 
         if(!isTransactionValid)
             throw new Error("Invalid transaction hash");
 
         // Check if the signature of all input transactions are correct (transaction data is signed by the public key of the address)
-        for(int i = 0; i < this.inputs.size(); i++){
-            Input current = this.inputs.get(i);
-
-            Boolean isValidSignature = CryptoHelper.verifySignature(current.getAddress(), current.getSignature(), current.getPreviousTxHash());
-            if(!isValidSignature)
+        for (Input current : this.inputs) {
+            isValidSignature = CryptoHelper.verifySignature(current.getAddress(), current.getSignature(), current.getPreviousTxHash());
+            if (!isValidSignature)
                 throw new Error("Invalid signature for input" + current.toString());
         }
 
-        //if (this.type == 'regular')
-            // Check if the sum of input transactions are greater than output transactions, it needs to leave some room for the transaction fee
+        if (this.type.equals("regular")){
+            long inputAmount = 0;
+            long outputAmount = 0;
 
-            // Check if enough fee
+            for(Input i : this.inputs){
+                inputAmount += i.getAmount();
+            }
 
-        return true;
+            for(Output i : this.outputs){
+                outputAmount += i.getAmount();
+            }
+
+            isSumInputGreater = inputAmount > outputAmount;
+            isEnoughFee = (inputAmount - outputAmount) >= feePerTransaction; // 1 because the fee is 1 satoshi per transaction
+        }
+
+        return isValidSignature && isSumInputGreater && isEnoughFee;
     }
 
     public static Transaction fromJSON(String json){
