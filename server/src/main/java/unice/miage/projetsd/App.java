@@ -15,6 +15,7 @@ public class App
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
 
-        System.out.println( "Blockchain started" );
+        Boolean test = blockchain.checkBlock(null, genesis);
+        System.out.println( "Blockchain started" + test );
     }
 }

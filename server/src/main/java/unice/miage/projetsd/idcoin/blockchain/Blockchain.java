@@ -77,6 +77,11 @@ public class Blockchain {
      * @param previousBlock previous block
      */
     public Boolean checkBlock(Block newBlock, Block previousBlock){
+        if(newBlock == null && this.blocks.size() == 1)
+            throw new Error("Trying to check genesis block");
+
+        assert(newBlock != null);
+
         byte[] blockHash = newBlock.toHash();
 
         long expected = previousBlock.getIndex().incrementAndGet();
