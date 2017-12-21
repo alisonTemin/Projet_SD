@@ -59,11 +59,11 @@ public class Transaction {
      */
     public byte[] toHash(){
         try {
-            return CryptoHelper.hash(this.id + this.type + this.inputs.toString() + this.outputs.toString());
+            this.hash = CryptoHelper.hash(this.id + this.type + this.inputs.toString() + this.outputs.toString());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return null;
+        return this.hash;
     }
 
     /**

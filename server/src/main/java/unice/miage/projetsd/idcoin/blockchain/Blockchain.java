@@ -47,7 +47,10 @@ public class Blockchain {
      *
      */
     public void addTransaction(Transaction tx){
-
+        if(this.checkTransaction(tx))
+            this.transactions.add(tx);
+        else
+            throw new Error("Trying to add an invalid transaction");
     }
 
     /**
@@ -55,23 +58,29 @@ public class Blockchain {
      *
      * A block is added to the block list:
 
-     - If the block is the last one (previous index + 1);
-     - If previous block is correct (previous hash == block.previousHash);
-     - The hash is correct (calculated block hash == block.hash);
-     - The difficulty level of the proof-of-work challenge is correct (difficulty at blockchain index n < block difficulty);
-     - All transactions inside the block are valid;
-     - The sum of output transactions are equal the sum of input transactions + 50 coins representing the reward for the block miner;
-     - If there is only 1 fee transaction and 1 reward transaction.
 
      */
     public void addBlock(Block block){
-        // TODO : Implement the right way (see up)
-        this.blocks.add(block);
+        if(this.blocks.size() == 0)
+            this.blocks.add(block);
+        else
+            if(this.checkBlock(block, this.blocks.get(this.blocks.size() - 1)))
+                this.blocks.add(block);
+            else
+                throw new Error("Trying to add invalid block");
     }
 
     /**
      * Check if block is good comparing to previous
      *
+     * A block is valid if :
+     *
+     * - If the block is the last one (previous index + 1);
+     * - If previous block is correct (previous hash == block.previousHash);
+     * - The hash is correct (calculated block hash == block.hash);
+     * - We are at the right turn to the consensus process
+     * - All transactions inside the block are valid;
+     * - The sum of output transactions are equal to the sum of input transactions + 1 coin (platform fee);
      * @param newBlock new block
      * @param previousBlock previous block
      */
@@ -91,8 +100,8 @@ public class Blockchain {
 
         if (expected != newBlockIndex) { // Check if the block is the last one
             throw new Error("Invalid index, expected : "+ expected + " got : " + newBlockIndex);
-        } else if (Arrays.equals(previousHash, newHash)) { // Check if the previous block is correct
-            throw new Error("Invalid previoushash: expected " + Arrays.toString(previousHash) + " got : " + Arrays.toString(newHash));
+        } else if (!Arrays.equals(previousHash, newBlock.getPreviousHash())) { // Check if the previous block is correct
+            throw new Error("Invalid previousHash got : " + Arrays.toString(newHash));
         } else if (!Arrays.equals(blockHash, newBlock.getHash())) { // Check if the hash is correct
             throw new Error("Invalid hash !");
         } else if (newBlock.getTurn() > previousBlock.getTurn()) { // If we are at the right turn

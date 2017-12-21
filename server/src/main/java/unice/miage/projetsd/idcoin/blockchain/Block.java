@@ -106,10 +106,17 @@ public class Block {
     }
 
     public byte[] getHash() {
+        if(this.hash == null)
+            this.toHash();
+
         return this.hash;
     }
 
     public int getTurn() {
         return this.turn;
+    }
+
+    public byte[] getPreviousHash() {
+        return previousHash;
     }
 }
