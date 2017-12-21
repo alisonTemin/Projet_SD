@@ -1,13 +1,20 @@
 package unice.miage.projetsd;
 
+import unice.miage.projetsd.idcoin.blockchain.Blockchain;
+import unice.miage.projetsd.idcoin.blockchain.Block;
+
 /**
- * Hello world!
+ * Launching the money, and everything related
  *
  */
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Blockchain blockchain = new Blockchain("troll");
+        Block genesis = Block.genesis();
+        blockchain.addBlock(genesis);
+
+        System.out.println( "Blockchain started" );
     }
 }

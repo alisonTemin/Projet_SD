@@ -62,7 +62,8 @@ public class Blockchain {
 
      */
     public void addBlock(Block block){
-
+        // TODO : Implement the right way (see up)
+        this.blocks.add(block);
     }
 
     /**

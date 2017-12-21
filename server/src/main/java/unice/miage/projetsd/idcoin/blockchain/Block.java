@@ -3,14 +3,15 @@ package unice.miage.projetsd.idcoin.blockchain;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A Block
  */
-class Block {
+public class Block {
     private AtomicLong index;
-    private long previousHash;
+    private byte[] previousHash;
     private Timestamp timestamp;
     private byte[] hash;
     private int turn;
@@ -22,7 +23,7 @@ class Block {
      * @param index Index
      * @param previousHash Hash of previous block, first is 0, 64bytes so long
      */
-    Block(AtomicLong index, long previousHash){
+    Block(AtomicLong index, byte[] previousHash){
         this.index = index;
         this.previousHash = previousHash;
         this.timestamp = new Timestamp(System.currentTimeMillis());
@@ -35,7 +36,7 @@ class Block {
      */
     public byte[] toHash() {
         try {
-            this.hash = CryptoHelper.hash(this.index.toString() + this.previousHash + this.timestamp + this.transactions + this.turn);
+            this.hash = CryptoHelper.hash(this.index.toString() + Arrays.toString(this.previousHash) + this.timestamp + this.transactions + this.turn);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -53,9 +54,7 @@ class Block {
      * @return Block
      */
     public static Block genesis() {
-       // TODO : First block of the chain, need to generate
-       // explain : https://en.bitcoin.it/wiki/Genesis_block
-       return null;
+       return new Block(new AtomicLong(0), null);
     }
 
     /**
@@ -81,4 +80,6 @@ class Block {
          */
         return null;
     }
+
+
 }
