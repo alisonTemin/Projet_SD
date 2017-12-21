@@ -1,9 +1,7 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class Blockchain {
 

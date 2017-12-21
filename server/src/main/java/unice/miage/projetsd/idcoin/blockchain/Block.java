@@ -50,6 +50,7 @@ public class Block {
         this.index = index;
         this.previousHash = previousHash;
         this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.transactions = new ArrayList<>();
     }
 
     /**

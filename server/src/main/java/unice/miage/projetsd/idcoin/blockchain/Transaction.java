@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 
-class Transaction {
+public class Transaction {
 
     /**
      * ID of the transaction
@@ -36,7 +36,7 @@ class Transaction {
      */
     private int feePerTransaction = 1;
 
-    Transaction(AtomicLong id, byte[] hash, String type){
+    public Transaction(AtomicLong id, byte[] hash, String type){
         this.id = id;
         this.hash = hash;
         this.type = type;
