@@ -1,22 +1,39 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
-import com.sun.istack.internal.NotNull;
-
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- *
- */
 class Transaction {
 
+    /**
+     * ID of the transaction
+     */
     private AtomicLong id;
+    /**
+     * Hash
+     */
     private byte[] hash;
+
+    /**
+     * Transaction type
+     */
     private String type;
+
+    /**
+     * Inputs
+     */
     private ArrayList<Input> inputs;
+
+    /**
+     * Ouputs
+     */
     private ArrayList<Output> outputs;
+
+    /**
+     * Fee per transaction
+     */
     private int feePerTransaction = 1;
 
     Transaction(AtomicLong id, byte[] hash, String type){
@@ -100,5 +117,21 @@ class Transaction {
     public static Transaction fromJSON(String json){
         // TODO : Implement
         return new Transaction(new AtomicLong(0), new byte[2], "Troll");
+    }
+
+    public ArrayList<Input> getInputs() {
+        return inputs;
+    }
+
+    public ArrayList<Output> getOutputs() {
+        return outputs;
+    }
+
+    public static int getTransactionFee(){
+        return 1;
+    }
+
+    public AtomicLong getIndex() {
+        return id;
     }
 }

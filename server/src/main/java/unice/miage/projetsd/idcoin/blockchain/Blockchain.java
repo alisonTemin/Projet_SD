@@ -1,6 +1,8 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Blockchain {
 
@@ -9,6 +11,8 @@ public class Blockchain {
 
     private ArrayList<Block> blocks;
     private ArrayList<Transaction> transactions;
+
+    private int FeePerTransaction = Transaction.getTransactionFee();
 
     /**
      * Blockchain constructor
@@ -72,8 +76,56 @@ public class Blockchain {
      * @param newBlock new block
      * @param previousBlock previous block
      */
-    public void checkBlock(Block newBlock, Block previousBlock){
+    public Boolean checkBlock(Block newBlock, Block previousBlock){
+        byte[] blockHash = newBlock.toHash();
 
+        long expected = previousBlock.getIndex().incrementAndGet();
+        long newBlockIndex = newBlock.getIndex().get();
+
+        byte[] previousHash = previousBlock.getHash();
+        byte[] newHash = newBlock.getHash();
+
+        if (expected != newBlockIndex) { // Check if the block is the last one
+            throw new Error("Invalid index, expected : "+ expected + " got : " + newBlockIndex);
+        } else if (Arrays.equals(previousHash, newHash)) { // Check if the previous block is correct
+            throw new Error("Invalid previoushash: expected " + Arrays.toString(previousHash) + " got : " + Arrays.toString(newHash));
+        } else if (Arrays.equals(blockHash, newBlock.getHash())) { // Check if the hash is correct
+            throw new Error("Invalid hash !");
+        } else if (newBlock.getTurn() > previousBlock.getTurn()) { // If we are at the right turn
+            throw new Error("Invalid consensus turn");
+        }
+
+        long inputAmount = this.FeePerTransaction;
+        long outputAmount = this.FeePerTransaction;
+
+        // For each transaction in this block, check if it is valid
+        for(Transaction tx : this.transactions){
+
+            for(Input i : tx.getInputs()){
+                inputAmount += i.getAmount();
+            }
+
+            for(Output i : tx.getOutputs()){
+                outputAmount += i.getAmount();
+            }
+
+            if(!tx.check())
+                throw new Error("Invalid transaction !" + tx.toString());
+        }
+
+        Boolean isInputsAmountGreaterOrEqualThanOutputsAmount = inputAmount >= outputAmount;
+
+        if (!isInputsAmountGreaterOrEqualThanOutputsAmount) {
+            throw new Error("Invalid balance");
+        }
+
+        long consensusTurnCheck = -1;
+
+        // TODO : Here we will need to check the consensus turn
+        if(consensusTurnCheck != -1)
+            throw new Error("Consensus turn invalid");
+
+        return true;
     }
 
     /**
@@ -82,8 +134,15 @@ public class Blockchain {
      * @param transaction transaction to check
      */
     public boolean checkTransaction(Transaction transaction){
+        if(!transaction.check())
+            throw new Error("Invalid transaction");
 
+        for(Transaction tx : this.transactions){
+            if(transaction.getIndex().equals(tx.getIndex()))
+                throw new Error("Transaction already in chain");
+        }
 
+        // TODO : Verify if all input transactions are unspent in the blockchain
         return false;
     }
 }

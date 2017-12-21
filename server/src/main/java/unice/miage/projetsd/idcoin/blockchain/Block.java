@@ -10,16 +10,38 @@ import java.util.concurrent.atomic.AtomicLong;
  * A Block
  */
 public class Block {
+    /**
+     * Index of the block
+     */
     private AtomicLong index;
+
+    /**
+     * Previous hash
+     */
     private byte[] previousHash;
+
+    /**
+     * Timestamp (when Block enter in system)
+     */
     private Timestamp timestamp;
+
+    /**
+     * Hash of the block
+     */
     private byte[] hash;
+
+    /**
+     * Consensus step
+     */
     private int turn;
 
+    /**
+     * Transactions linked to this block
+     */
     private ArrayList<Transaction> transactions;
 
     /**
-     *
+     * Block constructor.
      * @param index Index
      * @param previousHash Hash of previous block, first is 0, 64bytes so long
      */
@@ -41,11 +63,6 @@ public class Block {
             e.printStackTrace();
         }
         return this.hash;
-    }
-
-    public int getDifficulty() {
-        // TODO : Ask for how to handle that in Java
-       return 16;
     }
 
     /**
@@ -82,4 +99,15 @@ public class Block {
     }
 
 
+    public AtomicLong getIndex() {
+        return index;
+    }
+
+    public byte[] getHash() {
+        return hash;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
 }
