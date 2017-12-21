@@ -10,7 +10,7 @@ public class Transaction {
     /**
      * ID of the transaction
      */
-    private AtomicLong id;
+    private final AtomicLong id;
     /**
      * Hash
      */
@@ -19,7 +19,7 @@ public class Transaction {
     /**
      * Transaction type
      */
-    private String type;
+    private final String type;
 
     /**
      * Inputs
@@ -34,7 +34,7 @@ public class Transaction {
     /**
      * Fee per transaction
      */
-    private int feePerTransaction = 1;
+    private final int feePerTransaction = 1;
 
     public Transaction(AtomicLong id, byte[] hash, String type){
         this.id = id;
