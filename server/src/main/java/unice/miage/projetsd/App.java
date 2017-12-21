@@ -14,6 +14,7 @@ public class App
 {
     public static void main( String[] args )
     {
+        // Blockchain testing
         Blockchain blockchain = new Blockchain("troll");
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
@@ -25,5 +26,9 @@ public class App
         Transaction tx = new Transaction(new AtomicLong(0), two.getHash(), "bid");
         blockchain.addTransaction(tx);
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
+
+        // TODO : Start socket server
+        // TODO : Set listeners
+        // TODO : Add console log wrapper
     }
 }
