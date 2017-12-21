@@ -101,7 +101,7 @@ public class Blockchain {
         if (expected != newBlockIndex) { // Check if the block is the last one
             throw new Error("Invalid index, expected : "+ expected + " got : " + newBlockIndex);
         } else if (!Arrays.equals(previousHash, newBlock.getPreviousHash())) { // Check if the previous block is correct
-            throw new Error("Invalid previousHash got : " + Arrays.toString(newHash));
+            throw new Error("Invalid previousHash got : " + Arrays.toString(newHash) + " expected : " + previousHash);
         } else if (!Arrays.equals(blockHash, newBlock.getHash())) { // Check if the hash is correct
             throw new Error("Invalid hash !");
         } else if (newBlock.getTurn() > previousBlock.getTurn()) { // If we are at the right turn

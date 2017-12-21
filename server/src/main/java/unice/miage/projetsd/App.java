@@ -24,7 +24,7 @@ public class App
         Block two = new Block(atomicNewIndex, genesis.getHash());
 
         Transaction tx = new Transaction(new AtomicLong(0), two.getHash(), "bid");
-        blockchain.addTransaction(tx);
+        //blockchain.addTransaction(tx);
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
 
         // TODO : Start socket server

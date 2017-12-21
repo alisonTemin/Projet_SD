@@ -106,7 +106,7 @@ public class Block {
     }
 
     public byte[] getHash() {
-        if(this.hash == null)
+        if (this.hash == null)
             this.toHash();
 
         return this.hash;
