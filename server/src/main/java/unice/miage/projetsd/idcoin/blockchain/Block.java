@@ -1,4 +1,4 @@
-package server.src.main.java.unice.miage.projetsd.idcoin.blockchain;
+package unice.miage.projetsd.idcoin.blockchain;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;

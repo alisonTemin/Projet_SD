@@ -1,9 +1,9 @@
-package server.src.main.java.unice.miage.projetsd;
+package unice.miage.projetsd;
 
-import server.src.main.java.unice.miage.projetsd.idcoin.blockchain.Blockchain;
-import server.src.main.java.unice.miage.projetsd.idcoin.blockchain.Block;
-import server.src.main.java.unice.miage.projetsd.idcoin.blockchain.Transaction;
-import server.src.main.java.unice.miage.projetsd.idcoin.blockchain.Database;
+import unice.miage.projetsd.idcoin.blockchain.Blockchain;
+import unice.miage.projetsd.idcoin.blockchain.Block;
+import unice.miage.projetsd.idcoin.blockchain.Transaction;
+import unice.miage.projetsd.idcoin.blockchain.Database;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
@@ -34,5 +34,10 @@ public class App
         // TODO : Start socket server
         // TODO : Set listeners
         // TODO : Add console log wrapper
+
+        String nameDB = "biddb";
+        ArrayList<?> theList = new ArrayList<>();
+        Database mydb = new Database(nameDB, theList);
+        mydb.importDb();
     }
 }

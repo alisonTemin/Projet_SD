@@ -1,14 +1,20 @@
-package server.src.main.java.unice.miage.projetsd.idcoin.blockchain;
+package unice.miage.projetsd.idcoin.blockchain;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoIterable;
+import org.bson.Document;
+
+import javax.xml.crypto.Data;
 
 public class Database{
 
@@ -17,28 +23,24 @@ public class Database{
     }
 
     /*connection to local database using mongoDB*/
-    public void connectionToDb() {
+    public void importDb() {
 
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
 
             MongoClient mongo = new MongoClient("localhost", 27017);
-            DB db = (DB) mongoClient.getDatabase("biddb");
-            List<String> dbs = (List<String>) mongo.listDatabaseNames();
+        String name = "client";
+            System.out.print("connection : ok \n");
+        MongoIterable<String> db =  mongo.listDatabaseNames();
+        MongoDatabase database = mongoClient.getDatabase("biddb");
+        MongoCollection<Document> collClient = database.getCollection("client");
+        MongoCollection<Document> collObjet = database.getCollection("objet");
+        MongoCollection<Document> collEnchere = database.getCollection("enchere");
+        MongoCollection<Document> collEnchereTerminee = database.getCollection("enchereTerminee");
+        System.out.println("Import : Done");
+    }
 
-            for (String dab : dbs) {
-                System.out.println(db);
-            }
-            DB datab = (DB) mongo.getDatabase("biddb");
-            Set<String> tables = db.getCollectionNames();
 
-            for (String coll : tables) {
-                System.out.println(coll);
-            }
 
-            System.out.println("Done");
-
-            //DBCollection table = datab.getCollection("client");
-        }
 
 
 
@@ -55,10 +57,4 @@ public class Database{
         return null;
     }
 
-    public static void main( String[] args ) {
-        String nameDB = "biddb";
-        ArrayList<?> theList = new ArrayList<>();
-        Database mydb = new Database(nameDB, theList);
-        mydb.connectionToDb();
-    }
 }

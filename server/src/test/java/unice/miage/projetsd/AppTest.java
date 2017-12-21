@@ -1,4 +1,4 @@
-package unice.miage.projetsd;
+package server.src.test.java.unice.miage.projetsd;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
