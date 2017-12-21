@@ -42,10 +42,11 @@ public class Block {
 
     /**
      * Block constructor.
-     * @param index Index
+     *
+     * @param index        Index
      * @param previousHash Hash of previous block, first is 0, 64bytes so long
      */
-    Block(AtomicLong index, byte[] previousHash){
+    public Block(AtomicLong index, byte[] previousHash) {
         this.index = index;
         this.previousHash = previousHash;
         this.timestamp = new Timestamp(System.currentTimeMillis());
@@ -71,7 +72,7 @@ public class Block {
      * @return Block
      */
     public static Block genesis() {
-       return new Block(new AtomicLong(0), null);
+       return new Block(new AtomicLong(1), null);
     }
 
     /**
@@ -100,14 +101,14 @@ public class Block {
 
 
     public AtomicLong getIndex() {
-        return index;
+        return this.index;
     }
 
     public byte[] getHash() {
-        return hash;
+        return this.hash;
     }
 
     public int getTurn() {
-        return turn;
+        return this.turn;
     }
 }

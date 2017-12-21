@@ -84,7 +84,7 @@ public class Blockchain {
 
         byte[] blockHash = newBlock.toHash();
 
-        long expected = previousBlock.getIndex().incrementAndGet();
+        long expected = previousBlock.getIndex().get();
         long newBlockIndex = newBlock.getIndex().get();
 
         byte[] previousHash = previousBlock.getHash();
