@@ -13,17 +13,17 @@ public class Block {
     /**
      * Index of the block
      */
-    private AtomicLong index;
+    private final AtomicLong index;
 
     /**
      * Previous hash
      */
-    private byte[] previousHash;
+    private final byte[] previousHash;
 
     /**
      * Timestamp (when Block enter in system)
      */
-    private Timestamp timestamp;
+    private final Timestamp timestamp;
 
     /**
      * Hash of the block

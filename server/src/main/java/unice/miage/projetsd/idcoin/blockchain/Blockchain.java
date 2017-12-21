@@ -5,13 +5,13 @@ import java.util.Arrays;
 
 public class Blockchain {
 
-    private Database blocksDb;
-    private Database transactionsDb;
+    private final Database blocksDb;
+    private final Database transactionsDb;
 
     private ArrayList<Block> blocks;
     private ArrayList<Transaction> transactions;
 
-    private int FeePerTransaction = Transaction.getTransactionFee();
+    private final int FeePerTransaction = Transaction.getTransactionFee();
 
     /**
      * Blockchain constructor
