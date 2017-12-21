@@ -94,7 +94,7 @@ public class Blockchain {
             throw new Error("Invalid index, expected : "+ expected + " got : " + newBlockIndex);
         } else if (Arrays.equals(previousHash, newHash)) { // Check if the previous block is correct
             throw new Error("Invalid previoushash: expected " + Arrays.toString(previousHash) + " got : " + Arrays.toString(newHash));
-        } else if (Arrays.equals(blockHash, newBlock.getHash())) { // Check if the hash is correct
+        } else if (!Arrays.equals(blockHash, newBlock.getHash())) { // Check if the hash is correct
             throw new Error("Invalid hash !");
         } else if (newBlock.getTurn() > previousBlock.getTurn()) { // If we are at the right turn
             throw new Error("Invalid consensus turn");

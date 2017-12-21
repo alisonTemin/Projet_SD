@@ -17,10 +17,9 @@ public class App
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
 
-        //Boolean test = blockchain.checkBlock(null, genesis);
         long newIndex = genesis.getIndex().incrementAndGet();
         AtomicLong atomicNewIndex = new AtomicLong(newIndex);
         Block two = new Block(atomicNewIndex, genesis.getHash());
-        System.out.println( "Blockchain started" + blockchain.checkBlock(two, genesis) );
+        System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
     }
 }
