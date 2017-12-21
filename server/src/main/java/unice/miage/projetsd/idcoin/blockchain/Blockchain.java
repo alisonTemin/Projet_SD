@@ -41,20 +41,33 @@ public class Blockchain {
 
     /**
      * Add a transaction
+     *
      */
-    public void addTransaction(){
+    public void addTransaction(Transaction tx){
 
     }
 
     /**
      * Add a block
+     *
+     * A block is added to the block list:
+
+     - If the block is the last one (previous index + 1);
+     - If previous block is correct (previous hash == block.previousHash);
+     - The hash is correct (calculated block hash == block.hash);
+     - The difficulty level of the proof-of-work challenge is correct (difficulty at blockchain index n < block difficulty);
+     - All transactions inside the block are valid;
+     - The sum of output transactions are equal the sum of input transactions + 50 coins representing the reward for the block miner;
+     - If there is only 1 fee transaction and 1 reward transaction.
+
      */
-    public void addBlock(){
+    public void addBlock(Block block){
 
     }
 
     /**
      * Check if block is good comparing to previous
+     *
      * @param newBlock new block
      * @param previousBlock previous block
      */
@@ -64,10 +77,12 @@ public class Blockchain {
 
     /**
      * Check if transaction is valid (in transactionsDb)
+     *
      * @param transaction transaction to check
      */
     public boolean checkTransaction(Transaction transaction){
-        // TODO : implement
+
+
         return false;
     }
 }

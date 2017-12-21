@@ -1,11 +1,8 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class CryptoHelper {
 
@@ -15,14 +12,12 @@ public class CryptoHelper {
      * @return String hashed
      * @throws NoSuchAlgorithmException This exception is thrown when a particular cryptographic algorithm is required but not integrated
      */
-    public static String hash(String toHash) throws NoSuchAlgorithmException {
+    public static byte[] hash(String toHash) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance( "SHA-256" );
 
         md.update( toHash.getBytes( StandardCharsets.UTF_8 ) );
-        byte[] digest = md.digest();
-        AtomicLong id = new AtomicLong();
 
-        return String.format( "%064x", new BigInteger( 1, digest ) );
+        return md.digest();
     }
 
     /**
@@ -39,4 +34,30 @@ public class CryptoHelper {
 
         return sb.toString().substring(0, numChars);
     }
+
+
+    public static boolean verifySignature(PublicKey pubKey, byte[] message, byte[] signature) {
+        Signature sig = null;
+        try {
+            sig = Signature.getInstance("SHA256withRSA");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        try {
+            assert sig != null;
+            sig.initVerify(pubKey);
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        try {
+            sig.update(message);
+            return sig.verify(signature);
+        } catch (SignatureException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+
 }

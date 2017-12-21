@@ -1,16 +1,19 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
+import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A Block
  */
 class Block {
-    private int index;
+    private AtomicLong index;
     private long previousHash;
-    private int timestamp;
-    private int nonce;
-    private long hash;
+    private Timestamp timestamp;
+    private byte[] hash;
+    private int turn;
 
     private ArrayList<Transaction> transactions;
 
@@ -18,25 +21,25 @@ class Block {
      *
      * @param index Index
      * @param previousHash Hash of previous block, first is 0, 64bytes so long
-     * @param timestamp
-     * @param nonce nonce is used to define proof of work step
      */
-    Block(int index, long previousHash, int timestamp, int nonce){
+    Block(AtomicLong index, long previousHash){
         this.index = index;
         this.previousHash = previousHash;
-        this.timestamp = timestamp;
-        this.nonce = nonce;
+        this.timestamp = new Timestamp(System.currentTimeMillis());
     }
 
     /**
      * Calculate Block value to hash
+     * uses this.index + this.previousHash + this.timestamp + this.transactions + this.nonce
      * @return int (or hash?)
      */
-    public int toHash() {
-        this.hash = 0;
-         // INFO: Usually there are different implementations of the hash algorithm, for example: https://en.bitcoin.it/wiki/Hashcash
-        //return CryptoUtil.hash(this.index + this.previousHash + this.timestamp + JSON.stringify(this.transactions) + this.nonce);
-        return 0;
+    public byte[] toHash() {
+        try {
+            this.hash = CryptoHelper.hash(this.index.toString() + this.previousHash + this.timestamp + this.transactions + this.turn);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return this.hash;
     }
 
     public int getDifficulty() {
@@ -50,7 +53,7 @@ class Block {
      * @return Block
      */
     public static Block genesis() {
-       // TODO : First block of the chain, need to generate example in JS below
+       // TODO : First block of the chain, need to generate
        // explain : https://en.bitcoin.it/wiki/Genesis_block
        return null;
     }
@@ -69,7 +72,7 @@ class Block {
             "index": 0, // (first block: 0)
             "previousHash": "0", // (hash of previous block, first block is 0) (64 bytes)
             "timestamp": 1465154705, // number of seconds since January 1, 1970
-            "nonce": 0, // nonce used to identify the proof-of-work step.
+            "turn": 0, // turn used to identify the consensus step.
             "transactions": [ // list of transactions inside the block
 
             ],
