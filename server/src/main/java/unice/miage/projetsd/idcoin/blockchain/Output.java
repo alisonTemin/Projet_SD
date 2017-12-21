@@ -1,4 +1,4 @@
-package unice.miage.projetsd.idcoin.blockchain;
+package server.src.main.java.unice.miage.projetsd.idcoin.blockchain;
 
 import java.security.PublicKey;
 

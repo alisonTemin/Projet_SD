@@ -1,9 +1,11 @@
-package unice.miage.projetsd;
+package server.src.main.java.unice.miage.projetsd;
 
-import unice.miage.projetsd.idcoin.blockchain.Blockchain;
-import unice.miage.projetsd.idcoin.blockchain.Block;
-import unice.miage.projetsd.idcoin.blockchain.Transaction;
+import server.src.main.java.unice.miage.projetsd.idcoin.blockchain.Blockchain;
+import server.src.main.java.unice.miage.projetsd.idcoin.blockchain.Block;
+import server.src.main.java.unice.miage.projetsd.idcoin.blockchain.Transaction;
+import server.src.main.java.unice.miage.projetsd.idcoin.blockchain.Database;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -26,6 +28,8 @@ public class App
         Transaction tx = new Transaction(new AtomicLong(0), two.getHash(), "bid");
         //blockchain.addTransaction(tx);
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
+
+
 
         // TODO : Start socket server
         // TODO : Set listeners
