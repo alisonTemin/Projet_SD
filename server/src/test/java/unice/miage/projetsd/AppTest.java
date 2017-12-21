@@ -3,6 +3,8 @@ package unice.miage.projetsd;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import unice.miage.projetsd.idcoin.blockchain.Block;
+import unice.miage.projetsd.idcoin.blockchain.Blockchain;
 
 /**
  * Unit test for simple App.
@@ -31,8 +33,10 @@ public class AppTest
     /**
      * Rigourous Test :-)
      */
-    public void testApp()
-    {
-        assertTrue( true );
+    public void testApp(){
+        Blockchain blockchain = new Blockchain("troll");
+        Block genesis = Block.genesis();
+        blockchain.addBlock(genesis);
+        assertTrue(blockchain.getBlocks().size() > 0);
     }
 }
