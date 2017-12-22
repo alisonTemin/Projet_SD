@@ -4,6 +4,19 @@ import java.security.PublicKey;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Input {
+
+    /**
+     * Input constructor.
+     * @param previousTxHash
+     * @param index
+     * @param amount
+     */
+    public Input(byte[] previousTxHash, AtomicLong index, PublicKey address, long amount){
+        this.address = address;
+        this.previousTxHash = previousTxHash;
+        this.index = index;
+        this.amount = amount;
+    }
     /**
      * transaction hash taken from a previous unspent transaction output (64 bytes)
      */

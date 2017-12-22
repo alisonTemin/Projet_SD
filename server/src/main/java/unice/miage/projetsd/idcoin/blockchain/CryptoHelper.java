@@ -35,7 +35,13 @@ public class CryptoHelper {
         return sb.toString().substring(0, numChars);
     }
 
-
+    /**
+     *
+     * @param pubKey PublicKey
+     * @param message message
+     * @param signature signature of the previous hash
+     * @return
+     */
     public static boolean verifySignature(PublicKey pubKey, byte[] message, byte[] signature) {
         Signature sig = null;
         try {

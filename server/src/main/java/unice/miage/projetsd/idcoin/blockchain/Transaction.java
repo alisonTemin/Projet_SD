@@ -95,7 +95,7 @@ public class Transaction {
                 throw new Error("Invalid signature for input" + current.toString());
         }
 
-        if (this.type.equals("regular")){
+        if (this.type.equals("bid")){
             long inputAmount = 0;
             long outputAmount = 0;
 
@@ -117,6 +117,10 @@ public class Transaction {
     public static Transaction fromJSON(String json){
         // TODO : Implement
         return new Transaction(new AtomicLong(0), new byte[2], "Troll");
+    }
+
+    public void addInput(Input input){
+        this.inputs.add(input);
     }
 
     public ArrayList<Input> getInputs() {
