@@ -24,13 +24,11 @@ public class Database{
 
     /*connection to local database using mongoDB*/
     public void importDb() {
+        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://rootSD:rootSD06!@ds163016.mlab.com:63016/biddata"));
 
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-
-            MongoClient mongo = new MongoClient("localhost", 27017);
         String name = "client";
             System.out.print("connection : ok \n");
-        MongoIterable<String> db =  mongo.listDatabaseNames();
+        MongoIterable<String> db =  mongoClient.listDatabaseNames();
         MongoDatabase database = mongoClient.getDatabase("biddb");
         MongoCollection<Document> collClient = database.getCollection("client");
         MongoCollection<Document> collObjet = database.getCollection("objet");
