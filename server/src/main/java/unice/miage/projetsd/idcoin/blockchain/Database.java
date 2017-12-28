@@ -1,24 +1,26 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
+import com.mongodb.connection.Connection;
 import org.bson.Document;
 
 import javax.xml.crypto.Data;
 
 public class Database{
 
-    public Database(String dbName, ArrayList<?> blocks) {
+    public Database(String dbName, ArrayList<?> blocks) throws SQLException {
         // TODO : Implement
     }
 
@@ -35,10 +37,17 @@ public class Database{
         MongoCollection<Document> collEnchere = database.getCollection("enchere");
         MongoCollection<Document> collEnchereTerminee = database.getCollection("enchereTerminee");
         System.out.println("Import : Done");
+
     }
 
-
-
+    public void insertDocument(MongoCollection collection, Document doc){
+        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://rootSD:rootSD06!@ds163016.mlab.com:63016/biddata"));
+        String nameCollection = "";
+        MongoDatabase database = mongoClient.getDatabase("biddb");
+        MongoCollection table = database.getCollection(nameCollection);
+        BasicDBObject document = new BasicDBObject();
+        table.insertOne(document);
+    }
 
 
 
