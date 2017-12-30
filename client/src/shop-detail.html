@@ -187,15 +187,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <h2>Description</h2>
           <p id="desc"></p>
         </div>
-        <shop-input>
-            <input type="text" id="bidPrice" name="bidPrice" pattern="\d|,|."
-                placeholder="" required
-                aria-labelledby="bidPrice bidPriceHeading">
-            <shop-md-decorator error-message="Price incorrect" aria-hidden="true">
-              <label id="bidPriceLabel">Place bid</label>
-              <shop-underline></shop-underline>
-            </shop-md-decorator>
-        </shop-input>
         <shop-button responsive>
           <button on-click="_addABid" aria-label="Add a bid on this item">Place a bid</button>
         </shop-button>

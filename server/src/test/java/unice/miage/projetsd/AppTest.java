@@ -36,12 +36,7 @@ public class AppTest
      * Rigourous Test :-)
      */
     public void testApp(){
-        Blockchain blockchain = null;
-        try {
-            blockchain = new Blockchain("troll");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Blockchain blockchain = new Blockchain("troll");
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
         assertTrue(blockchain.getBlocks().size() > 0);

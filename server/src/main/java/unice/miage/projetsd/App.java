@@ -30,12 +30,7 @@ public class App
 
     private static void blockchainCeremony(){
         // Blockchain testing
-        Blockchain blockchain = null;
-        try {
-            blockchain = new Blockchain("troll");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Blockchain blockchain = new Blockchain("troll");
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
 

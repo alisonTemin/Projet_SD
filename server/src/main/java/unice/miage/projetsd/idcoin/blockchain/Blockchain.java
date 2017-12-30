@@ -3,7 +3,6 @@ package unice.miage.projetsd.idcoin.blockchain;
 import unice.miage.projetsd.idcoin.Database.Database;
 import unice.miage.projetsd.idcoin.Database.DatabaseItems;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,7 +21,7 @@ public class Blockchain {
      * @param dbName Database name
      */
     @SuppressWarnings("unchecked")
-    public Blockchain(String dbName) throws SQLException {
+    public Blockchain(String dbName) {
        this.blocksDb = new Database(dbName);
        this.transactionsDb = new Database(dbName);
 
