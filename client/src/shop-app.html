@@ -395,6 +395,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           window.addEventListener('online', (e)=>this._notifyNetworkStatus(e));
           window.addEventListener('offline', (e)=>this._notifyNetworkStatus(e));
         });
+
         this.socket = io('http://localhost:9002');
         this.socket.on('connect', function (data) {
           console.log("Connected on Socket server");
@@ -402,6 +403,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         this.socket.on("bidReceived", function(data){
           console.log(data);
+        });
+
+        this.socket.on("connect_error", (data) => {
+          alert("Can't connect to server", data);
+        });
+
+        this.socket.on("disconnect", function(data){
+          console.log("Disconnected from server, you can't place any bid atm");
         });
       }
 
