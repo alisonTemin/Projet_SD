@@ -16,6 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="shop-common-styles.html">
 <link rel="import" href="shop-image.html">
 <link rel="import" href="shop-select.html">
+<link rel="import" href="shop-input.html">
 
 <dom-module id="shop-detail">
 
@@ -153,7 +154,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <shop-image alt="[[item.title]]" src="[[item.largeImage]]"></shop-image>
       <div class="detail" has-content$="[[_isDefined(item)]]">
         <h1>[[item.title]]</h1>
-        <div class="price">[[_formatPrice(item.price)]]</div>
+        <div class="price">Reserve price : [[_formatPrice(item.price)]]</div>
         <div class="pickers">
           <shop-select>
             <label id="sizeLabel" prefix>Size</label>
@@ -186,8 +187,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <h2>Description</h2>
           <p id="desc"></p>
         </div>
+        <shop-input>
+            <input type="text" id="bidPrice" name="bidPrice" pattern="\d|,|."
+                placeholder="" required
+                aria-labelledby="bidPrice bidPriceHeading">
+            <shop-md-decorator error-message="Price incorrect" aria-hidden="true">
+              <label id="bidPriceLabel">Place bid</label>
+              <shop-underline></shop-underline>
+            </shop-md-decorator>
+        </shop-input>
         <shop-button responsive>
-          <button on-click="_addToCart" aria-label="Add this item to cart">Add to Cart</button>
+          <button on-click="_addToCart" aria-label="Add this item to cart">Place a bid</button>
         </shop-button>
       </div>
     </div>

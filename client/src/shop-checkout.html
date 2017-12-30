@@ -503,6 +503,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (this._validateForm()) {
           // To send the form data to the server:
           // 2) Remove the code below.
+          // 3) Send SocketIO event (Waiting for server dev)
           // 3) Uncomment `this.$.checkoutForm.submit()`.
 
           this.$.checkoutForm.dispatchEvent(new CustomEvent('iron-form-presubmit', {
@@ -519,7 +520,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }}));
             });
 
-          // this.$.checkoutForm.submit();
+            // Tell server that we have a new user who wants to act in this bid
+            // Send a socketIO event
+            // We need to catch iron-form submit to handle our event sending
+            // Could do that in _willSendRequest
+
+          //this.$.checkoutForm.submit();
         }
       }
 
@@ -577,6 +583,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         let firstInvalid = false;
         let nativeForm = form._form;
 
+        // Bulk checking every field
         for (let el, i = 0; el = nativeForm.elements[i], i < nativeForm.elements.length; i++) {
           if (el.checkValidity()) {
             el.removeAttribute('aria-invalid');
