@@ -99,7 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </shop-md-decorator>
         </shop-input>
         <shop-button>
-          <a href="/">Place this bid!</a>
+          <paper-button on-click="placeABid">Place a bid</paper-button>
         </shop-button>
     </div>
 
@@ -166,6 +166,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       refit() {}
 
       notifyResize() {}
+
+      placeABid() {
+        const bid = this.shadowRoot.querySelector('#bidPrice');
+
+
+        this.dispatchEvent(new CustomEvent('bidInfo', {
+          bubbles: true, composed: true, detail: {
+            value: bid.value
+          }}));
+      }
 
     }
 

@@ -239,18 +239,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     -->
     <shop-category-data categories="{{categories}}"></shop-category-data>
 
-    <!--
-      shop-cart-data maintains the state of the user's shopping cart (in localstorage) and
-      calculates the total amount.
-
-      HEAVY refactor need !
-    -->
-    <shop-cart-data
-        id="cart"
-        cart="{{cart}}"
-        num-items="{{numItems}}"
-        total="{{total}}"></shop-cart-data>
-
     <app-header role="navigation" id="header" effects="waterfall" condenses reveals>
       <app-toolbar>
         <div class="left-bar-item">
@@ -310,18 +298,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </dom-if>
 
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible" fallback-selection="404">
-      <!-- home view -->
       <shop-home name="home" categories="[[categories]]"></shop-home>
-      <!-- list view of items in a category -->
       <shop-list name="list" route="[[subroute]]" offline="[[offline]]"></shop-list>
-      <!-- detail view of one item -->
       <shop-detail name="detail" route="[[subroute]]" offline="[[offline]]"></shop-detail>
-      <!-- cart view -->
-      <shop-cart name="cart" cart="[[cart]]" total="[[total]]"></shop-cart>
-      <!-- checkout view -->
-      <!-- Heavy refactor needed, checkout will be init a new buy ceremony between users -->
-      <!-- Create a socketIO Room for each cart placement once ceremony started -->
-      <shop-checkout name="checkout" cart="[[cart]]" total="[[total]]" route="{{subroute}}"></shop-checkout>
 
       <shop-404-warning name="404"></shop-404-warning>
     </iron-pages>
@@ -544,25 +523,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.root.appendChild(this._bidModal);
           console.log("NewBidEvent !: ", event);
         }
-        //this.$.cart.addItem(event.detail);
         this._bidModal.open();
-        this.socket.emit("bidEvent", "troll");
-        //this._announce('Item added to the cart');
-      }
-
-      _onSetCartItem(event) {
-        let detail = event.detail;
-        this.$.cart.setItem(detail);
-        if (detail.quantity === 0) {
-          this._announce('Item deleted');
-        } else {
-          this._announce('Quantity changed to ' + detail.quantity);
-        }
-      }
-
-      _onClearCart() {
-        this.$.cart.clearCart();
-        this._announce('Cart cleared');
+        this._bidModal.addEventListener('bidInfo', (event) => {
+          console.log("Bid event received from bidModal", event);
+          this.socket.emit("bidEvent", event.detail.value);
+        });
       }
 
       // Elements in the app can notify a change to be a11y announced.
