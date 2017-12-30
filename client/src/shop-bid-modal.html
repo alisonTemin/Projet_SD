@@ -173,7 +173,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       placeABid() {
         const bid = this.shadowRoot.querySelector('#bidPrice');
 
-
+        // This will bubble event from bid-modal to the shop-app component to easily send through our socketIO instance
         this.dispatchEvent(new CustomEvent('bidInfo', {
           bubbles: true, composed: true, detail: {
             value: bid.value,
