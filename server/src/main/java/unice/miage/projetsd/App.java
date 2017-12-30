@@ -5,7 +5,9 @@ import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Input;
 import unice.miage.projetsd.idcoin.blockchain.Transaction;
 import unice.miage.projetsd.idcoin.blockchain.Database;
+import unice.miage.projetsd.idcoin.ws.Socket;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
@@ -19,8 +21,14 @@ public class App
 {
     public static void main( String[] args )
     {
+
         // Blockchain testing
-        Blockchain blockchain = new Blockchain("troll");
+        /*Blockchain blockchain = null;
+        try {
+            blockchain = new Blockchain("troll");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
 
@@ -41,14 +49,23 @@ public class App
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
 
 
+*/
 
-        // TODO : Start socket server
-        // TODO : Set listeners
+        Socket socketIO = new Socket("127.0.0.1", 9002);
+        socketIO.init();
+        socketIO.setListeners();
+        socketIO.start();
+
         // TODO : Add console log wrapper
 
         String nameDB = "biddb";
         ArrayList<?> theList = new ArrayList<>();
-        Database mydb = new Database(nameDB, theList);
+        Database mydb = null;
+        try {
+            mydb = new Database(nameDB, theList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         mydb.importDb();
     }
 }

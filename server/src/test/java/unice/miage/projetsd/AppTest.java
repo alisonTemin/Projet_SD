@@ -1,10 +1,12 @@
-package server.src.test.java.unice.miage.projetsd;
+package unice.miage.projetsd;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Blockchain;
+
+import java.sql.SQLException;
 
 /**
  * Unit test for simple App.
@@ -34,7 +36,12 @@ public class AppTest
      * Rigourous Test :-)
      */
     public void testApp(){
-        Blockchain blockchain = new Blockchain("troll");
+        Blockchain blockchain = null;
+        try {
+            blockchain = new Blockchain("troll");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
         assertTrue(blockchain.getBlocks().size() > 0);
