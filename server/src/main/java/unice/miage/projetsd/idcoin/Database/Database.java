@@ -1,6 +1,5 @@
 package unice.miage.projetsd.idcoin.Database;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.mongodb.*;
@@ -12,17 +11,44 @@ import unice.miage.projetsd.idcoin.blockchain.Transaction;
 
 public class Database{
 
+    /**
+     * MongoClient
+     */
     private MongoClient client;
+
+    /**
+     * MongoDatabase
+     */
     private MongoDatabase db;
+
+    /**
+     * Every usable collection name
+     */
     private String[] collectionsNames = new String[]{"client","objet","enchere", "enchereTerminee"};
+
+    /**
+     * Connection uri on Mlab
+     */
+    private String uri = "mongodb://rootSD:rootSD06!@ds163016.mlab.com:63016/biddata";
+
+    /**
+     * Instance collections
+     */
     private ArrayList<MongoCollection<Document>> collections;
 
-    public Database(String dbName, ArrayList<?> blocks) throws SQLException {
-        this.client = new MongoClient(new MongoClientURI("mongodb://rootSD:rootSD06!@ds163016.mlab.com:63016/biddata"));
-        this.db = this.client.getDatabase("biddb");
+    /**
+     * Database constructor.
+     * @param dbName name
+     */
+    public Database(String dbName) {
+        this.client = new MongoClient(new MongoClientURI(this.uri));
+        this.db = this.client.getDatabase(dbName);
+        this.collections = new ArrayList<>();
     }
 
-    /*connection to local database using mongoDB*/
+    /**
+     * Add every collections to current instance
+     */
     public void importDb() {
         for(String coll : collectionsNames){
             collections.add(this.db.getCollection(coll));
@@ -47,4 +73,7 @@ public class Database{
         return null;
     }
 
+    public ArrayList<MongoCollection<Document>> getCollections() {
+        return collections;
+    }
 }

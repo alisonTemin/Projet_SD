@@ -8,7 +8,6 @@ import unice.miage.projetsd.idcoin.Database.Database;
 import unice.miage.projetsd.idcoin.ws.Socket;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -48,10 +47,8 @@ public class App
 
         // TODO : Key generator
 
-
         Input i = new Input(tx.toHash(), new AtomicLong(1), null, 200);
         tx.addInput(i);
-
 
         //blockchain.addTransaction(tx);
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
@@ -59,13 +56,7 @@ public class App
 
     private static void setupDatabase(){
         String nameDB = "biddb";
-        ArrayList<?> theList = new ArrayList<>();
-        Database mydb = null;
-        try {
-            mydb = new Database(nameDB, theList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Database mydb = new Database(nameDB);
 
         assert mydb != null;
         mydb.importDb();

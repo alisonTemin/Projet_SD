@@ -23,8 +23,8 @@ public class Blockchain {
      */
     @SuppressWarnings("unchecked")
     public Blockchain(String dbName) throws SQLException {
-       this.blocksDb = new Database(dbName, new ArrayList<Block>());
-       this.transactionsDb = new Database(dbName, new ArrayList<Transaction>());
+       this.blocksDb = new Database(dbName);
+       this.transactionsDb = new Database(dbName);
 
        this.blocks = (ArrayList<Block>) this.blocksDb.read(DatabaseItems.Blocks);
        this.transactions = (ArrayList<Transaction>) this.transactionsDb.read(DatabaseItems.Transactions);
