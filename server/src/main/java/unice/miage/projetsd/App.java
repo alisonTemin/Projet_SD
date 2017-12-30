@@ -7,7 +7,6 @@ import unice.miage.projetsd.idcoin.blockchain.Transaction;
 import unice.miage.projetsd.idcoin.Database.Database;
 import unice.miage.projetsd.idcoin.ws.Socket;
 
-import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
