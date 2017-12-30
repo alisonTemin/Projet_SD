@@ -4,14 +4,11 @@ import unice.miage.projetsd.idcoin.blockchain.Blockchain;
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Input;
 import unice.miage.projetsd.idcoin.blockchain.Transaction;
-import unice.miage.projetsd.idcoin.blockchain.Database;
+import unice.miage.projetsd.idcoin.Database.Database;
 import unice.miage.projetsd.idcoin.ws.Socket;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -22,7 +19,17 @@ public class App
 {
     public static void main( String[] args )
     {
+        blockchainCeremony();
+        setupDatabase();
+        Socket socketIO = new Socket("127.0.0.1", 9002);
+        socketIO.init();
+        socketIO.setListeners();
+        socketIO.start();
 
+        // TODO : Add console log wrapper
+    }
+
+    private static void blockchainCeremony(){
         // Blockchain testing
         Blockchain blockchain = null;
         try {
@@ -46,17 +53,11 @@ public class App
         tx.addInput(i);
 
 
-       //blockchain.addTransaction(tx);
+        //blockchain.addTransaction(tx);
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
+    }
 
-
-        Socket socketIO = new Socket("127.0.0.1", 9002);
-        socketIO.init();
-        socketIO.setListeners();
-        socketIO.start();
-
-        // TODO : Add console log wrapper
-
+    private static void setupDatabase(){
         String nameDB = "biddb";
         ArrayList<?> theList = new ArrayList<>();
         Database mydb = null;
@@ -68,6 +69,5 @@ public class App
 
         assert mydb != null;
         mydb.importDb();
-        System.out.println(theList.toString());
     }
 }

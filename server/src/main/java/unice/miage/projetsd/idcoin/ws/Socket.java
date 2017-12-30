@@ -44,12 +44,5 @@ public class Socket {
 
     public void start(){
         this.server.start();
-        try {
-            Thread.sleep(Integer.MAX_VALUE);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        server.stop();
     }
 }
