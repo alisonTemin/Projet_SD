@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
 <link rel="import" href="shop-button.html">
 
-<dom-module id="shop-cart-modal">
+<dom-module id="shop-bid-modal">
 
   <template>
 
@@ -89,15 +89,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <div class="layout-horizontal">
-      <div class="label">Added to cart</div>
+      <div class="label">Add a bid</div>
     </div>
     <div class="layout-horizontal">
-      <shop-button class="modal-button">
-        <a href="/cart" on-click="close" id="viewCartAnchor">View Cart</a>
-      </shop-button>
-      <shop-button class="modal-button">
-        <a href="/checkout" on-click="close">Checkout</a>
-      </shop-button>
+        <shop-input>
+            <input type="text" id="bidPrice" name="bidPrice" pattern="\d|,|."
+                placeholder="" required
+                aria-labelledby="bidPrice bidPriceHeading">
+            </shop-md-decorator>
+        </shop-input>
+        <shop-button>
+          <a href="/">Place this bid!</a>
+        </shop-button>
     </div>
 
     <paper-icon-button icon="close" id="closeBtn" aria-label="Close dialog" on-click="close"></paper-icon-button>
@@ -106,10 +109,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
 
-    class ShopCartModal extends Polymer.mixinBehaviors(
+    class ShopBidModal extends Polymer.mixinBehaviors(
       [Polymer.IronOverlayBehaviorImpl], Polymer.Element) {
 
-      static get is() { return 'shop-cart-modal'; }
+      static get is() { return 'shop-bid-modal'; }
 
       static get properties() { return {
         withBackdrop: {
@@ -166,7 +169,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     }
 
-    customElements.define(ShopCartModal.is, ShopCartModal);
+    customElements.define(ShopBidModal.is, ShopBidModal);
 
   </script>
 

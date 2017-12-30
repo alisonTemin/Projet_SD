@@ -197,7 +197,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </shop-md-decorator>
         </shop-input>
         <shop-button responsive>
-          <button on-click="_addToCart" aria-label="Add this item to cart">Place a bid</button>
+          <button on-click="_addABid" aria-label="Add a bid on this item">Place a bid</button>
         </shop-button>
       </div>
     </div>
@@ -279,9 +279,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return price ? '$' + price.toFixed(2) : '';
       }
 
-      _addToCart() {
+      _addABid() {
         // This event will be handled by shop-app.
-        this.dispatchEvent(new CustomEvent('add-cart-item', {
+        this.dispatchEvent(new CustomEvent('add-bid-item', {
           bubbles: true, composed: true, detail: {
             item: this.item,
             quantity: parseInt(this.$.quantitySelect.value, 10),

@@ -21,7 +21,7 @@ public class Socket {
         this.config = new Configuration();
         config.setHostname(hostname);
         config.setPort(port);
-        config.setOrigin("http://127.0.0.1:8081");
+        config.getSocketConfig().setReuseAddress(true);
 
         this.server = new SocketIOServer(config);
     }
@@ -29,17 +29,16 @@ public class Socket {
     public void setListeners() {
         this.server.addConnectListener(
                 (client) -> {
-                    client.sendEvent("bidReceived", "bidReceived: yes");
-                    System.out.println("Utilisateur connecté");
+                    System.out.println("User connected");
                 });
 
         this.server.addEventListener("bidEvent", String.class,
                 (client, message, ackRequest) -> {
-                    System.out.println("Client said: " + message);
+                    System.out.println("Bid event received : " + message);
                 });
 
         this.server.addDisconnectListener((client) -> {
-            System.out.println(client.toString() + " has disconnected");
+            System.out.println("User has disconnected");
         });
     }
 

@@ -163,7 +163,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: bold;
       }
 
-      shop-cart-modal {
+      shop-bid-modal {
         z-index: 2;
       }
 
@@ -383,7 +383,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // Custom elements polyfill safe way to indicate an element has been upgraded.
         this.removeAttribute('unresolved');
         // listen for custom events
-        this.addEventListener('add-cart-item', (e)=>this._onAddCartItem(e));
+        this.addEventListener('add-bid-item', (e)=>this._onAddBidItem(e));
         this.addEventListener('set-cart-item', (e)=>this._onSetCartItem(e));
         this.addEventListener('clear-cart', (e)=>this._onClearCart(e));
         this.addEventListener('change-section', (e)=>this._onChangeSection(e));
@@ -529,14 +529,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       }
 
-      _onAddCartItem(event) {
-        if (!this._cartModal) {
-          this._cartModal = document.createElement('shop-cart-modal');
-          this.root.appendChild(this._cartModal);
+      _onAddBidItem(event) {
+        if (!this._bidModal) {
+          this._bidModal = document.createElement('shop-bid-modal');
+          this.root.appendChild(this._bidModal);
+          console.log("NewBidEvent !: ", event);
         }
-        this.$.cart.addItem(event.detail);
-        this._cartModal.open();
-        this._announce('Item added to the cart');
+        //this.$.cart.addItem(event.detail);
+        this._bidModal.open();
+        this.socket.emit("bidEvent", "troll");
+        //this._announce('Item added to the cart');
       }
 
       _onSetCartItem(event) {
