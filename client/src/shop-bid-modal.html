@@ -118,6 +118,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         withBackdrop: {
           type: Boolean,
           value: true
+        },
+        item: {
+          type: Object
         }
       }}
 
@@ -173,8 +176,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         this.dispatchEvent(new CustomEvent('bidInfo', {
           bubbles: true, composed: true, detail: {
-            value: bid.value
+            value: bid.value,
+            item: this.item
           }}));
+      }
+
+      setItem (item) {
+        this.item = item;
       }
 
     }

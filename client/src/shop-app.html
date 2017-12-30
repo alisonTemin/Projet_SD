@@ -524,9 +524,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           console.log("NewBidEvent !: ", event);
         }
         this._bidModal.open();
+        this._bidModal.setItem(event.detail.item);
         this._bidModal.addEventListener('bidInfo', (event) => {
           console.log("Bid event received from bidModal", event);
-          this.socket.emit("bidEvent", event.detail.value);
+          this.socket.emit("bidEvent", JSON.stringify({name : event.detail.item.name, value: event.detail.value}));
         });
       }
 
