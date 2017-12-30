@@ -353,6 +353,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: 0
         },
 
+        socket: {
+          type: Object
+        },
+
         _shouldShowTabs: {
           computed: '_computeShouldShowTabs(page, smallScreen)'
         },
@@ -390,6 +394,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Polymer.RenderStatus.afterNextRender(this, () => {
           window.addEventListener('online', (e)=>this._notifyNetworkStatus(e));
           window.addEventListener('offline', (e)=>this._notifyNetworkStatus(e));
+        });
+        var socket = io('http://localhost:9002');
+        socket.on('connect', function (data) {
+          console.log(data);
+          socket.emit('my other event', { my: 'data' });
         });
       }
 
