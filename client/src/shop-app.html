@@ -395,10 +395,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           window.addEventListener('online', (e)=>this._notifyNetworkStatus(e));
           window.addEventListener('offline', (e)=>this._notifyNetworkStatus(e));
         });
-        var socket = io('http://localhost:9002');
-        socket.on('connect', function (data) {
+        this.socket = io('http://localhost:9002');
+        this.socket.on('connect', function (data) {
+          console.log("Connected on Socket server");
+        });
+
+        this.socket.on("bidReceived", function(data){
           console.log(data);
-          socket.emit('my other event', { my: 'data' });
         });
       }
 

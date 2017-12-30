@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -23,7 +24,7 @@ public class App
     {
 
         // Blockchain testing
-        /*Blockchain blockchain = null;
+        Blockchain blockchain = null;
         try {
             blockchain = new Blockchain("troll");
         } catch (SQLException e) {
@@ -49,8 +50,6 @@ public class App
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
 
 
-*/
-
         Socket socketIO = new Socket("127.0.0.1", 9002);
         socketIO.init();
         socketIO.setListeners();
@@ -66,6 +65,9 @@ public class App
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        assert mydb != null;
         mydb.importDb();
+        System.out.println(theList.toString());
     }
 }

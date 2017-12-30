@@ -29,13 +29,18 @@ public class Socket {
     public void setListeners() {
         this.server.addConnectListener(
                 (client) -> {
-                    System.out.println("Client has Connected!");
+                    client.sendEvent("bidReceived", "bidReceived: yes");
+                    System.out.println("Utilisateur connecté");
                 });
 
         this.server.addEventListener("bidEvent", String.class,
                 (client, message, ackRequest) -> {
                     System.out.println("Client said: " + message);
                 });
+
+        this.server.addDisconnectListener((client) -> {
+            System.out.println(client.toString() + " has disconnected");
+        });
     }
 
     public void start(){
