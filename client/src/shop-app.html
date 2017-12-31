@@ -422,6 +422,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          * @listens connect_error
          */
         this.socket.on("connect_error", (data) => {
+          if(this.loginModal)
+            this.loginModal.close();
+            
           this.errorModal = this.shadowRoot.querySelector('#socketError');
           this.errorModal.open();
         });
