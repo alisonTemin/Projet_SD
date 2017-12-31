@@ -50,13 +50,13 @@ public class App
     }
 
     private static void setupDatabase(){
-        String nameDB = "biddb";
+        String nameDB = "biddata";
         Database mydb = new Database(nameDB);
 
         assert mydb != null;
         mydb.importDb();
         MongoCollection coll = mydb.getDb().getCollection("users");
-        //Object first = coll.find().first();
-        //System.out.println(first);
+        Object first = coll.find().first();
+        System.out.println(first);
     }
 }
