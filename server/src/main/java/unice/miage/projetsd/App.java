@@ -1,6 +1,5 @@
 package unice.miage.projetsd;
 
-import com.mongodb.client.MongoCollection;
 import unice.miage.projetsd.idcoin.blockchain.Blockchain;
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Input;
@@ -19,11 +18,7 @@ public class App
     public static void main( String[] args )
     {
         blockchainCeremony();
-        setupDatabase();
-        Socket socketIO = new Socket("127.0.0.1", 9002);
-        socketIO.init();
-        socketIO.setListeners();
-        socketIO.start();
+        setupDatabaseAndStart();
 
         // TODO : Add console log wrapper
     }
@@ -49,14 +44,17 @@ public class App
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
     }
 
-    private static void setupDatabase(){
+    private static void setupDatabaseAndStart(){
         String nameDB = "biddata";
-        Database mydb = new Database(nameDB);
+        Database biddata = new Database(nameDB);
 
-        assert mydb != null;
-        mydb.importDb();
-        MongoCollection coll = mydb.getDb().getCollection("users");
-        Object first = coll.find().first();
-        System.out.println(first);
+        assert biddata != null;
+        biddata.importDb();
+
+        Socket socketIO = new Socket("127.0.0.1", 9002);
+        socketIO.init();
+        socketIO.setListeners();
+        socketIO.start();
+        socketIO.setDb(biddata);
     }
 }

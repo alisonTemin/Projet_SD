@@ -2,12 +2,16 @@ package unice.miage.projetsd.idcoin.database;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
 import com.mongodb.*;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Transaction;
+import unice.miage.projetsd.idcoin.events.LoginEvent;
 
 public class Database{
 
@@ -79,11 +83,17 @@ public class Database{
         return collections;
     }
 
-    /**
-     * TODO REMOVE hacky test
-     * @return
-     */
-    public MongoDatabase getDb() {
-        return db;
+    public boolean isValidUser(LoginEvent event){
+        MongoCollection coll = this.db.getCollection("users");
+
+        FindIterable users = coll.find(new Document());
+
+        for(Object user : users){
+            Document doc = (Document) user;
+            if(event.getUsername().equals(doc.get("name")) && event.getPassword().equals(doc.get("password")))
+                return true;
+        }
+
+        return false;
     }
 }

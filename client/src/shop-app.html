@@ -423,7 +423,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          */
         this.socket.on("connect_error", (data) => {
           this.errorModal = this.shadowRoot.querySelector('#socketError');
-          errorModal.open();
+          this.errorModal.open();
+        });
+
+        this.socket.on("loginSuccess", (event) => {
+          console.log("loginSuccess !", event);
+          // TODO : Paper-toast ?
+          this.loginModal.close();
         });
 
         /**
@@ -457,9 +463,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        * TODO : Implement on server side
        */
       doLogin(username, password){
-        this.loginModal.close();
-
-        console.warn("TODO LOGIN : ", this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
+        this.socket.emit("login", JSON.stringify({username: username, password: password}));
 
         return true;
       }
@@ -479,12 +483,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       onLoginClick(){
         if(this.checkUserLogin())
-          this.doLogin();
+          this.doLogin(this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
       }
 
       onRegisterClick(){
         if(this.checkUserLogin())
-          this.doRegister();
+          this.doRegister(this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
       }
 
       _routePageChanged(page) {
