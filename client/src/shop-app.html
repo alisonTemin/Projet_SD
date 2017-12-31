@@ -458,7 +458,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        */
       doLogin(username, password){
         this.loginModal.close();
-        console.warn("TODO LOGIN : ", username, password);
+
+        console.warn("TODO LOGIN : ", this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
 
         return true;
       }
@@ -470,7 +471,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        */
       doRegister(username, password){
         this.loginModal.close();
-        console.warn("TODO Register : ", username, password);
+
+        console.warn("TODO Register : ", this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
 
         return true;
       }
