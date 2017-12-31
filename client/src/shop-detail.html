@@ -154,7 +154,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <shop-image alt="[[item.title]]" src="[[item.largeImage]]"></shop-image>
       <div class="detail" has-content$="[[_isDefined(item)]]">
         <h1>[[item.title]]</h1>
+        <div class="seller">Seller : [[item.owner]]</div>
         <div class="price">Reserve price : [[_formatPrice(item.price)]]</div>
+        <div class="startTime">Start : [[_parseTime(item.startTime)]]</div>
+        <div class="endTime">End : [[_parseTime(item.endTime)]]</div>
         <div class="description">
           <h2>Description</h2>
           <p id="desc"></p>
@@ -236,6 +239,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _formatPrice(price) {
         return price ? '$' + price.toFixed(2) : '';
+      }
+
+      _parseTime(time) {
+        const date = new Date(time * 1e3);
+        return date.toLocaleDateString();
       }
 
       _addABid() {
