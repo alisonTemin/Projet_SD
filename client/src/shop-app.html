@@ -19,6 +19,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/iron-socket-io-client/iron-socket-io-client.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="shop-category-data.html">
 <link rel="import" href="shop-home.html">
 
@@ -302,8 +305,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <shop-404-warning name="404"></shop-404-warning>
     </iron-pages>
 
+    <paper-dialog id="loginModal" modal>
+      <h2>Welcome !</h2>
+      <paper-input id="usernameInput" label="username"></paper-input>
+      <paper-input id="passwordInput" label="password"></paper-input>
+      <div class="buttons">
+        <paper-button on-click="onRegisterClick">Register</paper-button>
+        <paper-button autofocus on-click="onLoginClick">Login</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="socketError" modal>
+      <h2>Error while connecting to server</h2>
+      <p>It's not you, it's us :/</p>
+    </paper-dialog>
+
     <footer>
-      <a href="https://www.polymer-project.org/1.0/toolbox/">Made by Miagists</a>
+      <a href="#">Made by Miagists</a>
       <div class="demo-label">Fictive shop</div>
     </footer>
 
@@ -343,6 +361,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         _shouldRenderDrawer: {
           computed: '_computeShouldRenderDrawer(smallScreen, loadComplete)'
+        },
+        loginModal: {
+          type: Object
+        },
+        errorModal: {
+          type: Object
         }
       }}
 
@@ -356,8 +380,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       ready() {
         super.ready();
+
         // Custom elements polyfill safe way to indicate an element has been upgraded.
         this.removeAttribute('unresolved');
+
         // listen for custom events
         this.addEventListener('add-bid-item', (e)=>this._onAddBidItem(e));
         this.addEventListener('set-cart-item', (e)=>this._onSetCartItem(e));
@@ -366,28 +392,97 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.addEventListener('announce', (e)=>this._onAnnounce(e));
         this.addEventListener('dom-change', (e)=>this._domChange(e));
         this.addEventListener('show-invalid-url-warning', (e)=>this._onFallbackSelectionTriggered(e));
+
         // listen for online/offline
         Polymer.RenderStatus.afterNextRender(this, () => {
           window.addEventListener('online', (e)=>this._notifyNetworkStatus(e));
           window.addEventListener('offline', (e)=>this._notifyNetworkStatus(e));
         });
 
+        // Connect on Socket server
         this.socket = io('http://localhost:9002');
-        this.socket.on('connect', function (data) {
+        /**
+         * @listens connect
+         */
+        this.socket.on('connect', (data) => {
+          if(this.errorModal)
+            errorModal.close();
+
           console.log("Connected on Socket server");
         });
 
+        /**
+         * @listens bidReceived
+         */
         this.socket.on("bidReceived", function(data){
           console.log(data);
         });
 
+        /**
+         * @listens connect_error
+         */
         this.socket.on("connect_error", (data) => {
-          alert("Can't connect to server", data);
+          this.errorModal = this.shadowRoot.querySelector('#socketError');
+          errorModal.open();
         });
 
+        /**
+         * @listens disconnect
+         */
         this.socket.on("disconnect", function(data){
           console.log("Disconnected from server, you can't place any bid atm");
         });
+
+        // ToDO : Check auth before open (stored token in localStorage)
+        this.loginModal = this.shadowRoot.querySelector('#loginModal');
+        this.loginModal.open();
+      }
+
+      /**
+       * Check if username && password are filled
+       */
+       checkUserLogin(){
+        const username = this.shadowRoot.querySelector('#usernameInput');
+        const password = this.shadowRoot.querySelector('#passwordInput');
+        if(username.value && password.value)
+          return true;
+        else
+          return false;
+
+      }
+
+      /**
+       * Send Login event to socket server
+       * 
+       * TODO : Implement on server side
+       */
+      doLogin(username, password){
+        this.loginModal.close();
+        console.warn("TODO LOGIN : ", username, password);
+
+        return true;
+      }
+
+      /**
+       * Send register event to socket
+       * 
+       * TODO : Implement on server side
+       */
+      doRegister(username, password){
+        this.loginModal.close();
+        console.warn("TODO Register : ", username, password);
+
+        return true;
+      }
+
+      onLoginClick(){
+        if(this.checkUserLogin())
+          this.doLogin();
+      }
+
+      onRegisterClick(){
+        if(this.checkUserLogin())
+          this.doRegister();
       }
 
       _routePageChanged(page) {
