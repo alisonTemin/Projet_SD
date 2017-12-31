@@ -17,15 +17,18 @@ public class App
 {
     public static void main( String[] args )
     {
+        // Init a new blockchain
         blockchainCeremony();
-        setupDatabaseAndStart();
 
-        // TODO : Add console log wrapper
+        // Setup database in memory, start socketIO instance
+        setupDatabaseAndStart();
     }
 
     private static void blockchainCeremony(){
         // Blockchain testing
         Blockchain blockchain = new Blockchain("troll");
+
+        // The genesis is the first block of the chain ^^
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
 

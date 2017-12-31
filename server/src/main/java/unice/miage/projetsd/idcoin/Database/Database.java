@@ -2,19 +2,17 @@ package unice.miage.projetsd.idcoin.database;
 
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
 import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
 import org.bson.Document;
+
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Transaction;
 import unice.miage.projetsd.idcoin.events.LoginEvent;
 
 public class Database{
-
     /**
      * MongoClient
      */
@@ -34,6 +32,10 @@ public class Database{
      * Connection uri on Mlab
      */
     private String dsn = "mongodb://test:test@ds163016.mlab.com:63016/biddata";
+
+    /**
+     * MongoClient URI based on DSN
+     */
     private MongoClientURI uri;
 
     /**
@@ -42,7 +44,8 @@ public class Database{
     private ArrayList<MongoCollection<Document>> collections;
 
     /**
-     * database constructor.
+     * Database constructor.
+     *
      * @param dbName name
      */
     public Database(String dbName) {
@@ -61,9 +64,39 @@ public class Database{
         }
     }
 
-    public void insertDocument(String collection, Document doc){
-        MongoCollection<Document> table = this.db.getCollection(collection);
-        table.insertOne(doc);
+    /**
+     * Check if user is in database or not
+     *
+     * @param event loginEvent received by client
+     * @return true(find), false(404)
+     */
+    public boolean isValidUser(LoginEvent event){
+        // Get users coll
+        MongoCollection coll = this.db.getCollection("users");
+
+        // Find all
+        FindIterable users = coll.find(new Document());
+
+        for(Object user : users){
+            Document doc = (Document) user;
+            // if username && password are correct, accept
+            if(event.getUsername().equals(doc.get("name")) && event.getPassword().equals(doc.get("password")))
+                return true;
+        }
+
+        // Deny access
+        return false;
+    }
+
+    /**
+     * Insert a Document into specified collection
+     *
+     * @param collectionName users
+     * @param document new Document("Troll", "troll")
+     */
+    public void insertDocument(String collectionName, Document document){
+        MongoCollection<Document> collection = this.db.getCollection(collectionName);
+        collection.insertOne(document);
     }
 
     public ArrayList<?> read(DatabaseItems item){
@@ -77,23 +110,5 @@ public class Database{
 
         }
         return null;
-    }
-
-    public ArrayList<MongoCollection<Document>> getCollections() {
-        return collections;
-    }
-
-    public boolean isValidUser(LoginEvent event){
-        MongoCollection coll = this.db.getCollection("users");
-
-        FindIterable users = coll.find(new Document());
-
-        for(Object user : users){
-            Document doc = (Document) user;
-            if(event.getUsername().equals(doc.get("name")) && event.getPassword().equals(doc.get("password")))
-                return true;
-        }
-
-        return false;
     }
 }

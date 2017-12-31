@@ -2,14 +2,31 @@ package unice.miage.projetsd.idcoin.events;
 
 import com.google.gson.Gson;
 
+/**
+ * EventWrapper for GSON
+ */
 public class EventWrapper {
+    /**
+     * GSON instance
+     */
     private Gson gson;
 
+    /**
+     * EventWrapper Constructor
+     * Initialize Gson instance
+     */
     public EventWrapper(){
         this.gson = new Gson();
     }
 
-    public Object convertEvent(String eventName, String json, Class eventClass){
+    /**
+     * Convert a raw JSON to an event class
+     *
+     * @param json
+     * @param eventClass
+     * @return
+     */
+    public Object convertEvent(String json, Class eventClass){
         return this.gson.fromJson(json, eventClass);
     }
 
