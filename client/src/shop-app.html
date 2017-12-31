@@ -254,9 +254,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
         <div class="logo" main-title><a href="/" aria-label="H-Ette-Moi home">H-Ette-Moi</a></div>
         <div class="cart-btn-container">
-          <a href="/cart" tabindex="-1">
-            <paper-icon-button icon="shopping-cart" aria-label$="Panier: [[_computePluralizedQuantity(numItems)]]"></paper-icon-button>
-          </a>
           <div class="cart-badge" aria-hidden="true" hidden$="[[!numItems]]">[[numItems]]</div>
         </div>
       </app-toolbar>
@@ -525,7 +522,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         this._bidModal.open();
         this._bidModal.setItem(event.detail.item);
-        
+
         this._bidModal.addEventListener('bidInfo', (event) => {
           console.log("Bid event received from bidModal", event);
           this.socket.emit("bidEvent", JSON.stringify({name : event.detail.item.name, value: event.detail.value}));

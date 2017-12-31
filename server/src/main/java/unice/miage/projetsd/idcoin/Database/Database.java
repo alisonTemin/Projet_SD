@@ -1,4 +1,4 @@
-package unice.miage.projetsd.idcoin.Database;
+package unice.miage.projetsd.idcoin.database;
 
 import java.util.ArrayList;
 
@@ -24,12 +24,13 @@ public class Database{
     /**
      * Every usable collection name
      */
-    private String[] collectionsNames = new String[]{"client","objet","enchere", "enchereTerminee"};
+    private String[] collectionsNames = new String[]{"client","objet","enchere", "enchereTerminee", "users"};
 
     /**
      * Connection uri on Mlab
      */
-    private String uri = "mongodb://rootSD:rootSD06!@ds163016.mlab.com:63016/biddata";
+    private String dsn = "mongodb://test:test@ds163016.mlab.com:63016/biddata";
+    private MongoClientURI uri;
 
     /**
      * Instance collections
@@ -37,11 +38,12 @@ public class Database{
     private ArrayList<MongoCollection<Document>> collections;
 
     /**
-     * Database constructor.
+     * database constructor.
      * @param dbName name
      */
     public Database(String dbName) {
-        this.client = new MongoClient(new MongoClientURI(this.uri));
+        this.uri = new MongoClientURI(this.dsn);
+        this.client = new MongoClient(this.uri);
         this.db = this.client.getDatabase(dbName);
         this.collections = new ArrayList<>();
     }
@@ -50,7 +52,7 @@ public class Database{
      * Add every collections to current instance
      */
     public void importDb() {
-        for(String coll : collectionsNames){
+        for(String coll : this.collectionsNames){
             collections.add(this.db.getCollection(coll));
         }
     }
@@ -75,5 +77,13 @@ public class Database{
 
     public ArrayList<MongoCollection<Document>> getCollections() {
         return collections;
+    }
+
+    /**
+     * TODO REMOVE hacky test
+     * @return
+     */
+    public MongoDatabase getDb() {
+        return db;
     }
 }

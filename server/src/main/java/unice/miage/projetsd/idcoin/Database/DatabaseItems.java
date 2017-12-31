@@ -1,4 +1,4 @@
-package unice.miage.projetsd.idcoin.Database;
+package unice.miage.projetsd.idcoin.database;
 
 public enum DatabaseItems {
 

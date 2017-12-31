@@ -1,7 +1,7 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
-import unice.miage.projetsd.idcoin.Database.Database;
-import unice.miage.projetsd.idcoin.Database.DatabaseItems;
+import unice.miage.projetsd.idcoin.database.Database;
+import unice.miage.projetsd.idcoin.database.DatabaseItems;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class Blockchain {
 
     /**
      * Blockchain constructor
-     * @param dbName Database name
+     * @param dbName database name
      */
     @SuppressWarnings("unchecked")
     public Blockchain(String dbName) {
