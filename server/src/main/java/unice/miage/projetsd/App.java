@@ -4,7 +4,7 @@ import unice.miage.projetsd.idcoin.blockchain.Blockchain;
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Input;
 import unice.miage.projetsd.idcoin.blockchain.Transaction;
-import unice.miage.projetsd.idcoin.database.Database;
+import unice.miage.projetsd.idcoin.Database.Database;
 import unice.miage.projetsd.idcoin.ws.Socket;
 
 import java.util.concurrent.atomic.AtomicLong;

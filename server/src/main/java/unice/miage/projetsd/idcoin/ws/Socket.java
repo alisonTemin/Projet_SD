@@ -3,9 +3,10 @@ package unice.miage.projetsd.idcoin.ws;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 
-import unice.miage.projetsd.idcoin.database.Database;
+import unice.miage.projetsd.idcoin.Database.Database;
 import unice.miage.projetsd.idcoin.events.EventWrapper;
 import unice.miage.projetsd.idcoin.events.LoginEvent;
+import unice.miage.projetsd.idcoin.events.RegisterEvent;
 
 /**
  * SocketIO
@@ -74,7 +75,102 @@ public class Socket {
                 });
 
         /*
+         * Listeners à faire :
+         * Objet mis en enchère
+         * Objet retiré des enchères (manuellement par l'utilisateur qui l'a posté)
+         * Objet retiré des enchères (enchère remportée par un client)
+         * Placer enchère
+         * Annuler enchère
+         * Achat immédiat
+         * Recherche d'objet
+         * Inscription réussie
+         * Connexion réussie
+
+         */
+
+        /*
+         * @listens placeObjectEvent
+         * Mise en enchère d'un objet
+         */
+
+        this.server.addEventListener("placeObjectEvent", String.class,
+                (client, message, ackRequest) -> {
+                    System.out.println("Object placed in bid : " + message);
+                });
+
+        /*
+         * @listens removeObjectEvent
+         * Objet retiré des enchères(manuellement par l'utilisateur qui l'a posté)
+         */
+
+        this.server.addEventListener("removeObjectEvent", String.class,
+                (client, message, ackRequest) -> {
+                    System.out.println("Object removed from the bid : " + message);
+                });
+
+        /*
+         * @listens wonBidEvent
+         * Objet retiré des enchères (enchère remportée par un client)
+         */
+
+        this.server.addEventListener("wonBidEvent", String.class,
+                (client, message, ackRequest) -> {
+                    System.out.println("Bid was won : " + message);
+                });
+
+        /*
+         * @listens cancelBidEvent
+         * Annuler enchère déjà placée
+         */
+
+        this.server.addEventListener("cancelBidEvent", String.class,
+                (client, message, ackRequest) -> {
+                    System.out.println("Bid event received : " + message);
+                });
+
+        /*
+         * @listens buyItNowEvent
+         * Achat immédiat
+         */
+
+        this.server.addEventListener("buyItNowEvent", String.class,
+                (client, message, ackRequest) -> {
+                    System.out.println("Object bought with 'Buy it now' : " + message);
+                });
+
+        /*
+         * @listens findObjectEvent
+         * Recherche d'objet
+         */
+
+        this.server.addEventListener("findObjectEvent", String.class,
+                (client, message, ackRequest) -> {
+                    System.out.println("Object found : " + message);
+                });
+
+        /*
+         * @listens registerEvent
+         * Inscription réussie
+         */
+
+
+        this.server.addEventListener("registerEvent", String.class,
+                (client, message, ackRequest) -> {
+                    // Wrapping stringified json
+                    RegisterEvent registerEvent = (RegisterEvent) eW.convertEvent(message, RegisterEvent.class);
+
+                    // Check if user is in Database
+                    if(this.db.isValidRegistration(registerEvent)){
+                        // Reply to client, he is authenticated now !
+                        client.sendEvent("registration Success", "ok");
+                    }
+                });
+
+
+
+        /*
          * @listens bidEvent
+         * Placer enchère
          */
         this.server.addEventListener("bidEvent", String.class,
                 (client, message, ackRequest) -> {
@@ -88,6 +184,7 @@ public class Socket {
             System.out.println("User has disconnected");
         });
     }
+
 
     /**
      * Start socketIO server

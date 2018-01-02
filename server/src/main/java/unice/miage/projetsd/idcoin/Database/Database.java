@@ -1,4 +1,4 @@
-package unice.miage.projetsd.idcoin.database;
+package unice.miage.projetsd.idcoin.Database;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,7 @@ import org.bson.Document;
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Transaction;
 import unice.miage.projetsd.idcoin.events.LoginEvent;
+import unice.miage.projetsd.idcoin.events.RegisterEvent;
 
 public class Database{
     /**
@@ -65,6 +66,30 @@ public class Database{
     }
 
     /**
+     * Check if user does not already exist in the database
+     *
+     * @param event registerEvent received by client
+     * @return true(not find), false(already in the db)
+     */
+    public boolean isValidRegistration(RegisterEvent event){
+        // Get users coll
+        MongoCollection coll = this.db.getCollection("users");
+
+        // Find all
+        FindIterable users = coll.find(new Document());
+
+        for(Object user : users){
+            Document doc = (Document) user;
+            // if username already exists in the database, refuse
+            if(event.getUsername().equals(doc.get("name")))
+                return false;
+        }
+
+        return true;
+    }
+
+
+    /**
      * Check if user is in database or not
      *
      * @param event loginEvent received by client
@@ -99,7 +124,7 @@ public class Database{
         collection.insertOne(document);
     }
 
-    public ArrayList<?> read(DatabaseItems item){
+    public ArrayList<?> read(unice.miage.projetsd.idcoin.database.DatabaseItems item){
         switch(item) {
             case Transactions:
                 return new ArrayList<Transaction>();
