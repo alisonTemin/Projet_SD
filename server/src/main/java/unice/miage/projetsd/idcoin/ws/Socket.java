@@ -3,7 +3,7 @@ package unice.miage.projetsd.idcoin.ws;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 
-import unice.miage.projetsd.idcoin.Database.Database;
+import unice.miage.projetsd.idcoin.database.Database;
 import unice.miage.projetsd.idcoin.events.EventWrapper;
 import unice.miage.projetsd.idcoin.events.LoginEvent;
 import unice.miage.projetsd.idcoin.events.RegisterEvent;
@@ -67,26 +67,13 @@ public class Socket {
                     // Wrapping stringified json
                     LoginEvent loginEvent = (LoginEvent) eW.convertEvent(message, LoginEvent.class);
 
-                    // Check if user is in Database
+                    // Check if user is in database
                     if(this.db.isValidUser(loginEvent)){
                         // Reply to client, he is authenticated now !
                         client.sendEvent("loginSuccess", "ok");
                     }
                 });
 
-        /*
-         * Listeners à faire :
-         * Objet mis en enchère
-         * Objet retiré des enchères (manuellement par l'utilisateur qui l'a posté)
-         * Objet retiré des enchères (enchère remportée par un client)
-         * Placer enchère
-         * Annuler enchère
-         * Achat immédiat
-         * Recherche d'objet
-         * Inscription réussie
-         * Connexion réussie
-
-         */
 
         /*
          * @listens placeObjectEvent
@@ -159,7 +146,7 @@ public class Socket {
                     // Wrapping stringified json
                     RegisterEvent registerEvent = (RegisterEvent) eW.convertEvent(message, RegisterEvent.class);
 
-                    // Check if user is in Database
+                    // Check if user is in database
                     if(this.db.isValidRegistration(registerEvent)){
                         // Reply to client, he is authenticated now !
                         client.sendEvent("registration Success", "ok");
@@ -195,7 +182,7 @@ public class Socket {
 
     /**
      * Set database instance
-     * @param db Database (biddata)
+     * @param db database (biddata)
      */
     public void setDb(Database db) {
         this.db = db;

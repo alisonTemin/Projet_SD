@@ -1,4 +1,4 @@
-package unice.miage.projetsd.idcoin.Database;
+package unice.miage.projetsd.idcoin.database;
 
 import java.util.ArrayList;
 
@@ -45,7 +45,7 @@ public class Database{
     private ArrayList<MongoCollection<Document>> collections;
 
     /**
-     * Database constructor.
+     * database constructor.
      *
      * @param dbName name
      */
