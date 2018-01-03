@@ -115,13 +115,12 @@ public class Database{
     }
     /**
      * Add a user in database
-     *
+     *@param dbName name of the database
+     *@param userName name of the new user
+     *@param password password for the new user
      *
      */
-    public void addUser(LoginEvent event){
-        String dbName = this.db.getName();
-        String userName = new String();
-        char[] password = {};
+    public void addUser(String dbName, String userName, char[] password){
         MongoCredential credential = MongoCredential.createMongoCRCredential(dbName,userName,password);
         client = new MongoClient((MongoClientURI) Arrays.asList(credential));
     }
