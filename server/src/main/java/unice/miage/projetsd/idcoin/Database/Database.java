@@ -1,6 +1,7 @@
 package unice.miage.projetsd.idcoin.database;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.mongodb.*;
 import com.mongodb.client.FindIterable;
@@ -111,6 +112,18 @@ public class Database{
 
         // Deny access
         return false;
+    }
+    /**
+     * Add a user in database
+     *
+     *
+     */
+    public void addUser(LoginEvent event){
+        String dbName = this.db.getName();
+        String userName = new String();
+        char[] password = {};
+        MongoCredential credential = MongoCredential.createMongoCRCredential(dbName,userName,password);
+        client = new MongoClient((MongoClientURI) Arrays.asList(credential));
     }
 
     /**
