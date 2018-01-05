@@ -1,12 +1,10 @@
 package unice.miage.projetsd;
 
-import unice.miage.projetsd.idcoin.blockchain.Blockchain;
-import unice.miage.projetsd.idcoin.blockchain.Block;
-import unice.miage.projetsd.idcoin.blockchain.Input;
-import unice.miage.projetsd.idcoin.blockchain.Transaction;
+import unice.miage.projetsd.idcoin.blockchain.*;
 import unice.miage.projetsd.idcoin.database.Database;
 import unice.miage.projetsd.idcoin.ws.Socket;
 
+import java.util.Base64;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -22,6 +20,15 @@ public class App
 
         // Setup database in memory, start socketIO instance
         setupDatabaseAndStart();
+
+
+        //Test de la méthode fromJson de Block
+        String data = "{ \"index\": 0, \"previousHash\": \"0\", \"timestamp\": 1465154705, \"turn\": 0, \"transactions\": [], \"hash\": \"c4e0b8df46199754d1ed\" }";
+
+        Block block = Block.fromJson(data);
+        System.out.println(block);
+
+
     }
 
     private static void blockchainCeremony(){

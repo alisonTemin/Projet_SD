@@ -1,9 +1,19 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
+import jdk.nashorn.internal.parser.JSONParser;
+
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -53,6 +63,33 @@ public class Block {
         this.transactions = new ArrayList<>();
     }
 
+    public Block()
+    {
+
+        index = null;
+        previousHash = null;
+        timestamp = null;
+    }
+
+    /**
+     * Block constructor.
+     *
+     * @param index        Index of the block
+     * @param previousHash Hash of previous block, first is 0, 64bytes so long
+     * @param timestamp    Timestamp when block enter in system
+     * @param hash         Hash of the block
+     * @param turn         Consensus step
+     * @param transactions Transactions linked to this block
+     */
+    public Block(AtomicLong index, byte[] previousHash, Timestamp timestamp, int turn, ArrayList<Transaction> transactions, byte[] hash) {
+        this.index = index;
+        this.previousHash = previousHash;
+        this.timestamp = timestamp;
+        this.hash = hash;
+        this.turn = turn;
+        this.transactions = transactions;
+    }
+
     /**
      * Calculate Block value to hash
      * uses this.index + this.previousHash + this.timestamp + this.transactions + this.nonce
@@ -76,6 +113,18 @@ public class Block {
        return new Block(new AtomicLong(1), null);
     }
 
+    @Override
+    public String toString() {
+        return "Block{" +
+                "index=" + index +
+                ", previousHash=" + Arrays.toString(previousHash) +
+                ", timestamp=" + timestamp +
+                ", hash=" + Arrays.toString(hash) +
+                ", turn=" + turn +
+                ", transactions=" + transactions +
+                '}';
+    }
+
     /**
      * Retrieve a Block from JSON
      * @param data Block as json
@@ -83,7 +132,35 @@ public class Block {
      */
     public static Block fromJson(String data) {
         // TODO : Implement
+        AtomicLong index;
+        byte[] previousHash;
+        Timestamp timestamp;
+        byte[] hash;
+        int turn;
+        ArrayList<Transaction> transactions;
 
+        Gson gson = new Gson();
+        BlockString blockstring = gson.fromJson(data, BlockString.class);
+
+        index = blockstring.getIndex();
+        previousHash = blockstring.getPreviousHash().getBytes();
+        timestamp = new Timestamp(Long.parseLong(blockstring.getTimestamp()));
+        hash = blockstring.getHash().getBytes();
+        turn = blockstring.getTurn();
+        transactions = blockstring.getTransactions();
+
+        Block block = new Block(index,previousHash,timestamp,turn, transactions, hash);
+
+        /*
+        try {
+            Block block = new ObjectMapper().readValue(data, Block.class);
+            return block;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+
+        //Block block = new Block(index,previousHash,timestamp, hash, turn, transactions);
         /*
         // Typical Block in JSON
         { // Block
@@ -97,7 +174,7 @@ public class Block {
             "hash": "c4e0b8df46...199754d1ed" // hash taken from the contents of the block: sha256 (index + previousHash + timestamp + nonce + transactions) (64 bytes)
         }
          */
-        return null;
+        return block;
     }
 
 
