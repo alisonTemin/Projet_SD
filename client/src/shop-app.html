@@ -303,12 +303,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <shop-detail name="detail" route="[[subroute]]" offline="[[offline]]"></shop-detail>
 
       <shop-404-warning name="404"></shop-404-warning>
+      <shop-register name="register"></shop-register>
     </iron-pages>
 
     <paper-dialog id="loginModal" modal>
       <h2>Welcome !</h2>
-      <paper-input id="usernameInput" label="username"></paper-input>
-      <paper-input id="passwordInput" label="password"></paper-input>
+      <paper-input id="usernameInput" label="Username"></paper-input>
+      <paper-input id="passwordInput" label="Password"></paper-input>
       <div class="buttons">
         <paper-button on-click="onRegisterClick">Register</paper-button>
         <paper-button autofocus on-click="onLoginClick">Login</paper-button>

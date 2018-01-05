@@ -1,0 +1,31 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+
+<dom-module id="shop-register">
+
+  <template>
+
+    <iron-form id="registerForm">
+      <form action="/" method="get">
+       <legend>Create H-Ette-Moi account</legend>
+       <paper-input always-float-label required name="fullname" label="Your full name"></paper-input>
+       <paper-input always-float-label required name="username" label="Username"></paper-input>
+       <paper-input always-float-label required name="password" label="Password"></paper-input> 
+       <br>
+       <paper-button raised onClick="registerFormSubmit()" id="registerFormSubmit">Register to H-Ette-Moi</paper-button>
+       </form>
+    </iron-form>
+   
+  </template>
+
+  <script>
+    class ShopRegister extends Polymer.Element {
+      static get is() { return "shop-register"; }
+    }
+    customElements.define(ShopRegister.is, ShopRegister);
+  </script>
+
+</dom-module>
