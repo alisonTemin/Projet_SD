@@ -490,8 +490,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.doLogin(this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
       }
 
+      // TODO : Switch page to register page
       onRegisterClick(){
-        if(this.checkUserLogin())
+          if(this.checkUserLogin()) 
           this.doRegister(this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
       }
 
