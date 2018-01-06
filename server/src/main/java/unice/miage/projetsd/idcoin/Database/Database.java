@@ -121,8 +121,8 @@ public class Database{
      *
      */
     public void addUser(String dbName, String userName, char[] password){
-        MongoCredential credential = MongoCredential.createMongoCRCredential(dbName,userName,password);
-        client = new MongoClient((MongoClientURI) Arrays.asList(credential));
+        //MongoCredential credential = MongoCredential.createMongoCRCredential(dbName,userName,password);
+        client = new MongoClient((MongoClientURI) Arrays.asList(this.client));
     }
 
     /**
