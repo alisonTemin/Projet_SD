@@ -1,8 +1,5 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
-import com.google.gson.Gson;
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -16,6 +13,7 @@ public class BlockString {
     private final String timestamp;
     private String hash;
     private int turn;
+    private ArrayList<Transaction> transactions;
 
     public BlockString(AtomicLong index, String previousHash, String timestamp) {
         this.index = index;
@@ -23,41 +21,44 @@ public class BlockString {
         this.timestamp = timestamp;
     }
 
+    /**
+     * Getter PreviousHash
+     */
     public String getPreviousHash() {
         return previousHash;
     }
 
+    /**
+     * Getter Timestamp
+     */
     public String getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * Getter Hash
+     */
     public String getHash() {
         return hash;
     }
 
+    /**
+     * Getter Transactions
+     */
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
-    private ArrayList<Transaction> transactions;
 
     /**
-     * Retrieve a Block from JSON
-     * @param data Block as json
-     * @return Block
+     * Getter Index
      */
-    public static BlockString fromJson(String data) {
-        Gson gson = new Gson();
-        BlockString block = gson.fromJson(data, BlockString.class);
-        return block;
-    }
-
-
     public AtomicLong getIndex() {
         return this.index;
     }
 
-
-
+    /**
+     * Getter Turn
+     */
     public int getTurn() {
         return this.turn;
     }

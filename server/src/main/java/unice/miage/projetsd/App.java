@@ -23,10 +23,10 @@ public class App
 
 
         //Test de la méthode fromJson de Block
-        String data = "{ \"index\": 0, \"previousHash\": \"0\", \"timestamp\": 1465154705, \"turn\": 0, \"transactions\": [], \"hash\": \"c4e0b8df46199754d1ed\" }";
+        /*String data = "{ \"index\": 0, \"previousHash\": \"0\", \"timestamp\": 1465154705, \"turn\": 0, \"transactions\": [], \"hash\": \"c4e0b8df46199754d1ed\" }";
 
         Block block = Block.fromJson(data);
-        System.out.println(block);
+        System.out.println(block);*/
 
 
     }

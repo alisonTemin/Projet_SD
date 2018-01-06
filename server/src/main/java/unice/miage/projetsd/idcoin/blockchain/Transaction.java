@@ -1,5 +1,7 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
+import com.google.gson.Gson;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +38,13 @@ public class Transaction {
      */
     private final int feePerTransaction = 1;
 
+    /**
+     * Transaction constructor.
+     *
+     * @param id        Id of the transaction
+     * @param hash      Hash of the transaction
+     * @param type      Type of the transaction
+     */
     public Transaction(AtomicLong id, byte[] hash, String type){
         this.id = id;
         this.hash = hash;
@@ -44,6 +53,15 @@ public class Transaction {
         this.outputs = new ArrayList<>();
     }
 
+    /**
+     * Transaction constructor.
+     *
+     * @param id        Id of the transaction
+     * @param hash      Hash of the transaction
+     * @param type      Type of the transaction
+     * @param inputs    Inputs
+     * @param outputs   Outputs
+     */
     private Transaction(AtomicLong id, byte[] hash, String type, ArrayList<Input> inputs, ArrayList<Output> outputs){
         this.id = id;
         this.hash = hash;
@@ -114,27 +132,54 @@ public class Transaction {
         return isValidSignature && isSumInputGreater && isEnoughFee;
     }
 
+    /**
+     * Retrieve a Transaction from JSON
+     * @param json Transaction as json
+     * @return Transaction
+     */
     public static Transaction fromJSON(String json){
-        // TODO : Implement
-        return new Transaction(new AtomicLong(0), new byte[2], "Troll");
+
+        Gson gson = new Gson();
+        TransactionString transactionString = gson.fromJson(json, TransactionString.class);
+
+        AtomicLong id = transactionString.getIndex();
+        byte[] hash = transactionString.getHash().getBytes();
+        String type = transactionString.getType();
+        ArrayList<Input> inputs = transactionString.getInputs();
+        ArrayList<Output> outputs = transactionString.getOutputs();
+
+        return new Transaction(id, hash, type, inputs, outputs);
     }
+
 
     public void addInput(Input input){
         this.inputs.add(input);
     }
 
+    /**
+     * Getter Inputs
+     */
     public ArrayList<Input> getInputs() {
         return inputs;
     }
 
+    /**
+     * Getter Outputs
+     */
     public ArrayList<Output> getOutputs() {
         return outputs;
     }
 
+    /**
+     * Getter TransactionFee
+     */
     public static int getTransactionFee(){
         return 1;
     }
 
+    /**
+     * Getter Id
+     */
     public AtomicLong getIndex() {
         return id;
     }
