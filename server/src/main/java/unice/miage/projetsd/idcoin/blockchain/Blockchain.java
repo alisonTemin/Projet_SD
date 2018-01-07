@@ -5,6 +5,7 @@ import unice.miage.projetsd.idcoin.database.DatabaseItems;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.UnsupportedEncodingException;
 
 public class Blockchain {
 
@@ -135,10 +136,12 @@ public class Blockchain {
             throw new Error("Invalid balance");
         }
 
-        long consensusTurnCheck = -1;
+        //long consensusTurnCheck = -1;
 
-        // TODO : Here we will need to check the consensus turn
-        if(consensusTurnCheck != -1)
+        // TODO : Here we will need to check the consensus turn - Remove TODO if it's ok
+        boolean consensTurnCheck = checkPOW("00","H-ette-moi");
+        
+        if(consensusTurnCheck == false)
             throw new Error("Consensus turn invalid");
 
         return true;
@@ -182,4 +185,39 @@ public class Blockchain {
 
         return inputs.size() == outputs.size();
     }
+    
+    /***
+     * Check if the Proof of Work is OK
+     * @param proof - the proof (a number of 0)
+     * @param message - the message to hash
+     * @return true or false
+     * @throws NoSuchAlgorithmException 
+     * @throws UnsupportedEncodingException 
+     */
+    public boolean checkPOW(String proof, String message) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+    	boolean check;
+    	int nbZero = proof.length();
+    	byte[] hashMessage;
+    	String hashFinal;
+    	
+    	int nb = 0; 
+    	do{
+    		hashMessage = CryptoHelper.hash(message+nb);
+    		
+    		hashFinal = new String (hashMessage,"UTF-8");
+    		
+    		if(hashFinal.substring(0,nbZero).equals(proof))
+    			check = true;
+    		else
+    			check = false;
+    		
+    		nb++;
+
+    	} while (!check);
+    	
+    	
+    	return check;
+    }
+    
+    
 }
