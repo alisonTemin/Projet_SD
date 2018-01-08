@@ -3,6 +3,7 @@ package unice.miage.projetsd.idcoin.blockchain;
 import unice.miage.projetsd.idcoin.database.Database;
 import unice.miage.projetsd.idcoin.database.DatabaseItems;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.UnsupportedEncodingException;
@@ -64,7 +65,7 @@ public class Blockchain {
 
 
      */
-    public void addBlock(Block block){
+    public void addBlock(Block block) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if(this.blocks.size() == 0)
             this.blocks.add(block);
         else
@@ -88,7 +89,7 @@ public class Blockchain {
      * @param newBlock new block
      * @param previousBlock previous block
      */
-    public Boolean checkBlock(Block newBlock, Block previousBlock){
+    public Boolean checkBlock(Block newBlock, Block previousBlock) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if(newBlock == null && this.blocks.size() == 1)
             throw new Error("Trying to check genesis block");
 
@@ -139,7 +140,7 @@ public class Blockchain {
         //long consensusTurnCheck = -1;
 
         // TODO : Here we will need to check the consensus turn - Remove TODO if it's ok
-        boolean consensTurnCheck = checkPOW("00","H-ette-moi");
+        boolean consensusTurnCheck = checkPOW("00","H-ette-moi");
         
         if(consensusTurnCheck == false)
             throw new Error("Consensus turn invalid");

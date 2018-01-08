@@ -4,6 +4,8 @@ import unice.miage.projetsd.idcoin.blockchain.*;
 import unice.miage.projetsd.idcoin.database.Database;
 import unice.miage.projetsd.idcoin.ws.Socket;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -16,7 +18,11 @@ public class App
     public static void main( String[] args )
     {
         // Init a new blockchain
-        blockchainCeremony();
+        try {
+            blockchainCeremony();
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
         // Setup database in memory, start socketIO instance
         setupDatabaseAndStart();
@@ -31,7 +37,7 @@ public class App
 
     }
 
-    private static void blockchainCeremony(){
+    private static void blockchainCeremony() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         // Blockchain testing
         Blockchain blockchain = new Blockchain("troll");
 

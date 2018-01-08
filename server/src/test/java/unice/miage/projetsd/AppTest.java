@@ -6,6 +6,8 @@ import junit.framework.TestSuite;
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Blockchain;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 /**
@@ -35,7 +37,7 @@ public class AppTest
     /**
      * Rigourous Test :-)
      */
-    public void testApp(){
+    public void testApp() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         Blockchain blockchain = new Blockchain("troll");
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);

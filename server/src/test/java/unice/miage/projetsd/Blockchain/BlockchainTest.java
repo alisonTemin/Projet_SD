@@ -7,6 +7,8 @@ import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Blockchain;
 import unice.miage.projetsd.idcoin.blockchain.Transaction;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -43,13 +45,13 @@ public class BlockchainTest
     /**
      * Check if genesis block could be added
      */
-    public void testCouldAddGenesisBlock(){
+    public void testCouldAddGenesisBlock() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         Block genesis = Block.genesis();
         this.fakeChain.addBlock(genesis);
         assertTrue(this.fakeChain.getBlocks().size() > 0);
     }
 
-    public void testCouldAddSecondBlock() {
+    public void testCouldAddSecondBlock() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         Block genesis = Block.genesis();
 
         this.fakeChain.addBlock(genesis);
