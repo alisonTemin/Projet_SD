@@ -8,6 +8,8 @@ import unice.miage.projetsd.idcoin.events.EventWrapper;
 import unice.miage.projetsd.idcoin.events.LoginEvent;
 import unice.miage.projetsd.idcoin.events.RegisterEvent;
 
+import java.security.*;
+
 /**
  * SocketIO
  */
@@ -146,10 +148,17 @@ public class Socket {
                     // Wrapping stringified json
                     RegisterEvent registerEvent = (RegisterEvent) eW.convertEvent(message, RegisterEvent.class);
 
+                    KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("DSA", "SUN");
+                    SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+                    keyGenerator.initialize(1024, random);
+                    KeyPair pair = keyGenerator.generateKeyPair();
+                    PrivateKey privKey = pair.getPrivate();
+                    PublicKey pubKey = pair.getPublic();
+
                     // Check if user is in database
                     if(this.db.isValidRegistration(registerEvent)){
                         // Reply to client, he is authenticated now !
-                        client.sendEvent("registration Success", "ok");
+                        client.sendEvent("registration Success", privKey);
                     }
                 });
 

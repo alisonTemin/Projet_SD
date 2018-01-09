@@ -30,7 +30,7 @@ public class App
 
     }
 
-    private static void blockchainCeremony() throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchProviderException {
+    private static void blockchainCeremony() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         // Blockchain testing
         Blockchain blockchain = new Blockchain("troll");
 
@@ -43,17 +43,6 @@ public class App
         Block two = new Block(atomicNewIndex, genesis.getHash());
 
         Transaction tx = new Transaction(new AtomicLong(0), two.getHash(), "bid");
-
-        // TODO : Key generator
-
-        KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("DSA", "SUN");
-        SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        keyGenerator.initialize(1024, random);
-        KeyPair pair = keyGenerator.generateKeyPair();
-        PrivateKey privKey = pair.getPrivate();
-        PublicKey pubKey = pair.getPublic();
-
-        
 
 
         Input i = new Input(tx.toHash(), new AtomicLong(1), null, 200);
