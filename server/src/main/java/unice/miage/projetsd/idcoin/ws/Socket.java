@@ -158,7 +158,8 @@ public class Socket {
                     // Check if user is in database
                     if(this.db.isValidRegistration(registerEvent)){
                         // Reply to client, he is authenticated now !
-                        client.sendEvent("registration Success", privKey);
+                        client.sendEvent("registration Success", "ok");
+                        client.sendEvent("private key", privKey);
                     }
                 });
 
