@@ -5,8 +5,7 @@ import unice.miage.projetsd.idcoin.database.Database;
 import unice.miage.projetsd.idcoin.ws.Socket;
 
 import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.security.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -28,16 +27,10 @@ public class App
         setupDatabaseAndStart();
 
 
-        //Test de la méthode fromJson de Block
-        /*String data = "{ \"index\": 0, \"previousHash\": \"0\", \"timestamp\": 1465154705, \"turn\": 0, \"transactions\": [], \"hash\": \"c4e0b8df46199754d1ed\" }";
-
-        Block block = Block.fromJson(data);
-        System.out.println(block);*/
-
 
     }
 
-    private static void blockchainCeremony() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    private static void blockchainCeremony() throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchProviderException {
         // Blockchain testing
         Blockchain blockchain = new Blockchain("troll");
 
@@ -52,6 +45,16 @@ public class App
         Transaction tx = new Transaction(new AtomicLong(0), two.getHash(), "bid");
 
         // TODO : Key generator
+
+        KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("DSA", "SUN");
+        SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+        keyGenerator.initialize(1024, random);
+        KeyPair pair = keyGenerator.generateKeyPair();
+        PrivateKey privKey = pair.getPrivate();
+        PublicKey pubKey = pair.getPublic();
+
+        
+
 
         Input i = new Input(tx.toHash(), new AtomicLong(1), null, 200);
         tx.addInput(i);
