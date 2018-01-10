@@ -1,7 +1,9 @@
 package unice.miage.projetsd.idcoin.database;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 import com.mongodb.*;
 import com.mongodb.client.FindIterable;
@@ -115,14 +117,25 @@ public class Database{
     }
     /**
      * Add a user in database
-     *@param dbName name of the database
-     *@param userName name of the new user
+     *@param name name of the new user
+     *@param userName login of the new user
      *@param password password for the new user
+     *@param pubKey public key of the new user
      *
      */
-    public void addUser(String dbName, String userName, char[] password){
+    public void addUser(String name, String userName,String password,PublicKey pubKey){
         //MongoCredential credential = MongoCredential.createMongoCRCredential(dbName,userName,password);
         client = new MongoClient((MongoClientURI) Arrays.asList(this.client));
+
+        MongoCollection coll = this.db.getCollection("users");
+        BasicDBObject user = new BasicDBObject();
+        user.append("nomClient", userName);
+        user.append("loginClient", name);
+        user.append("passwordClient", password);
+        user.append("idClient", pubKey);
+
+        coll.insertOne(user);
+
     }
 
     /**

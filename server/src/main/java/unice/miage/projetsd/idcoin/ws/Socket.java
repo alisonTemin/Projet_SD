@@ -8,6 +8,7 @@ import unice.miage.projetsd.idcoin.events.EventWrapper;
 import unice.miage.projetsd.idcoin.events.LoginEvent;
 import unice.miage.projetsd.idcoin.events.RegisterEvent;
 
+import javax.xml.crypto.Data;
 import java.security.*;
 
 /**
@@ -158,6 +159,7 @@ public class Socket {
                     // Check if user is in database
                     if(this.db.isValidRegistration(registerEvent)){
                         // Reply to client, he is authenticated now !
+                        this.db.addUser(registerEvent.getName(), registerEvent.getUsername(), registerEvent.getPassword(), pubKey);
                         client.sendEvent("registration Success", "ok");
                         client.sendEvent("private key", privKey);
                     }
