@@ -18,6 +18,7 @@ public class Database{
      * @param dbName name
      */
     public Database(String dbName) {
+        this.bids = new ArrayList<>();
     }
 
     /**

@@ -1,6 +1,7 @@
 package unice.miage.projetsd.idcoin.ws;
 
 import com.corundumstudio.socketio.Configuration;
+import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 
 import unice.miage.projetsd.idcoin.blockchain.Block;
@@ -94,7 +95,9 @@ public class Socket {
                     client.sendEvent("placeSuccess", this.blockchain.getBlocks());
                     this.db.addBid(message);
                     if(this.db.getBids().size() == 2){
-                        this.server.getBroadcastOperations().sendEvent("mine", this.blockchain.getBlocks());
+                        System.out.println("Asking to mine");
+                        client.sendEvent("mine", this.blockchain.getBlocks());
+                        this.askEverybodyToMineExcept(client);
                     }
                 });
 
@@ -198,6 +201,14 @@ public class Socket {
         this.server.addDisconnectListener((client) -> {
             System.out.println("User has disconnected");
         });
+    }
+
+    public void askEverybodyToMineExcept(SocketIOClient client){
+        for(SocketIOClient cli : this.server.getAllClients()){
+            if(!cli.equals(client)){
+                cli.sendEvent("mine", this.blockchain.getBlocks());
+            }
+        }
     }
 
 

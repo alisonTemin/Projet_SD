@@ -124,9 +124,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <paper-dialog id="loginModal" modal>
       <h2>Welcome !</h2>
-      <paper-input id="usernameInput" label="Username"></paper-input>
+      <paper-input id="usernameInput" label="user"></paper-input>
+      <paper-input id="item" label="item"></paper-input>
+      <paper-input id="price" label="reserve price"></paper-input>
       <div class="buttons">
-        <paper-button on-click="onRegisterClick">Start demo</paper-button>
+        <paper-button on-click="onLoginClick">Start demo</paper-button>
       </div>
     </paper-dialog>
 
@@ -238,23 +240,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
 
         this.socket.addEventListener("mine", function(event){
-
+          console.log("Starting to mine for emitter");
         });
 
-        this.socketFake.addEventListener("mine")
+        this.socketFake.addEventListener("mine", (event) => {
+          console.log("Starting to mine for fake 1");
+        });
+
+        this.socketFake2.addEventListener("mine", (event) => {
+          console.log("Starting to mine for fake 2");
+        });
 
         this.socket.on("placeSuccess", (event) => {
-          debugger;
            console.log("success starting modal with fake sockets ", event);
         });
 
         this.socketFake.on("placeSuccess", (event) => {
-          debugger;
            console.log("Fake1 ", event);
         });
 
         this.socketFake2.on("placeSuccess", (event) => {
-          debugger;
            console.log("Fke2 ", event);
         });
 
@@ -293,27 +298,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return true;
       }
 
-      /**
-       * Send register event to socket
-       * 
-       */
-      doRegister(username){
-        this.loginModal.close();
-        debugger;
-        this.socket.emit("register", JSON.stringify({username: username}));
-
-        return true;
-      }
-
       onLoginClick(){
         if(this.checkUserLogin())
           this.doLogin(this.shadowRoot.querySelector('#usernameInput').value);
-      }
-
-      // TODO : Switch page to register page
-      onRegisterClick(){
-          if(this.checkUserLogin())
-            this.doRegister(this.shadowRoot.querySelector('#usernameInput').value);
       }
     }
 
