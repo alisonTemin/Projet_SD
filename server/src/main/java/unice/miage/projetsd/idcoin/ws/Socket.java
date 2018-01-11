@@ -11,6 +11,7 @@ import unice.miage.projetsd.idcoin.blockchain.Transaction;
 import unice.miage.projetsd.idcoin.database.Database;
 import unice.miage.projetsd.idcoin.events.EventWrapper;
 import unice.miage.projetsd.idcoin.events.LoginEvent;
+import unice.miage.projetsd.idcoin.events.PubKeyEvent;
 import unice.miage.projetsd.idcoin.events.RegisterEvent;
 
 import java.security.*;
@@ -68,6 +69,12 @@ public class Socket {
                 (client) -> {
                     System.out.println("User connected");
                 });
+
+
+        this.server.addEventListener("pubKey", String.class, (client, message, ackRrequest) -> {
+            PubKeyEvent newKey = (PubKeyEvent) eW.convertEvent(message, PubKeyEvent.class);
+            System.out.println("Received new public key for" + newKey.getEmitter());
+        });
 
         /*
          * @listens login

@@ -168,6 +168,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         errorModal: {
           type: Object
+        },
+        encrypt: {
+          type: Object
         }
       }}
 
@@ -182,6 +185,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready() {
         super.ready();
 
+        this.encrypt = new JSEncrypt();
+
         // Connect on Socket server
         this.socket = io('http://localhost:9002');
         this.socketFake = io('http://localhost:9002');
@@ -193,7 +198,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if(this.errorModal)
             errorModal.close();
 
-          console.log("Connected on Socket server");
+            this.socket.emit("pubKey", {key: `-----BEGIN PUBLIC KEY-----
+              MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzV8pcEGkb/hDZykWLHYia2hfq
+              c6N9lfUoWcTarnJkh1MTweaECHpECq/83FbK3xOZ5+riQUCSr86oTgro0m2XuhVq
+              174K/IL5QdBov8jSoZ7cjD4QgfFDf0MnVpbCyCIBqYiTrEasbQ1HhP4x3GPu0skH
+              8KpAQUgwtHHkp9MJyQIDAQAB
+              -----END PUBLIC KEY-----`, emitter: "emitter"});
+
+          console.log("Connected on Socket server, rsa key sent");
+        });
+
+        this.socketFake.on('connect', (data) => {
+          this.socket.emit("pubKey", {key: `-----BEGIN PUBLIC KEY-----
+            MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzOhqUBk01yV3DJ1NO7t11/rfl
+            y5bWKg7CM4CghhBo3KrrLH4WNTpz4qkhENwN8PMlX4brhCSi4RmHhJztb2yza0AG
+            +3J8jL5RC4Qw1cgnk+nJOiIZRtxX8vUs3rlUirvMTcICISgmnICUY8mTpAdPlW4i
+            Wxul0mFeGTomoj030wIDAQAB
+            -----END PUBLIC KEY-----`, emitter: "fake"});
+
+          console.log("key sent for fake");
+        });
+
+        this.socketFake2.on('connect', (data) => {
+          this.socket.emit("pubKey", {key: `-----BEGIN PUBLIC KEY-----
+            MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDYSZceal4ee4N07P6p6DsHFaCU
+            Zjhh7RyL/XUfR7FfAL/ktCNx+m3mSqK5jhj/P1XQvVteV7kf9m/vbFElz3Jds1LA
+            A/oaVEfPN+OKYGERO5mGESeKRZi3stkcowhqY3q8SU0qeipwK/5X2ilnPERfKASE
+            LA1rJqqMky9yhAc4LQIDAQAB
+            -----END PUBLIC KEY-----`, emitter: "fake2"});
+
+            console.log("key sent for fake2");
         });
 
         /**
@@ -281,21 +315,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       }
 
-      generateKeyFor(user){
-        var rsaKey = cryptico.generateRSAKey(user, 1024);
-        var pubKey = cryptico.publicKeyString(rsaKey);
-      }
-
       /**
        * Send Login event to socket server
        * 
-       * TODO : Implement on server side
        */
       doLogin(username, item, price){
         this.socket.emit("login", JSON.stringify({username: username, item: item, price: price}));
 
         return true;
       }
+
+     encryptWithKey(key, data){
+        this.encrypt.setKey(key);
+
+        return this.encrypt.encrypt(data);
+     }
+
+     decryptWithKey(key, data){
+       this.encrypt.setKey(key);
+
+       return this.decrypt(data);
+     }
 
       onLoginClick(){
         if(this.checkUserLogin())
