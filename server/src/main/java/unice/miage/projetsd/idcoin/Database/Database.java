@@ -15,7 +15,7 @@ public class Database {
     private ArrayList<Object> bids;
 
     private Connection connection;
-    private Statement statement;
+    private PreparedStatement statement;
 
     public Database() {
         try {
@@ -29,22 +29,32 @@ public class Database {
         this.bids = new ArrayList<>();
     }
 
-    public int insertObject(String name, String price){
+    public long insertObject(String name, int price){
         try {
-            this.statement = this.connection.createStatement();
-            String sql = "INSERT INTO objects (name, price) VALUES ('" + name + "', "+ price + ")";
-            return this.statement.executeUpdate(sql);
+            this.statement = this.connection.prepareStatement("INSERT INTO objects (name, price) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS);
+            this.statement.setString(1, name);
+            this.statement.setInt(2, price);
+            this.statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
         }
     }
 
-    public boolean insertSell(String seller, int objectId){
+    public boolean insertSell(String seller, long objectId){
         try {
-            this.statement = this.connection.createStatement();
-            String sql = "INSERT INTO sells (seller, objectId) VALUES ('" + seller + "', "+ objectId + ")";
-            return this.statement.execute(sql);
+            this.statement = this.connection.prepareStatement("INSERT INTO sells (seller, objectId) VALUES (?,?)");
+            this.statement.setString(1, seller);
+            this.statement.setLong(2, objectId);
+            return this.statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
