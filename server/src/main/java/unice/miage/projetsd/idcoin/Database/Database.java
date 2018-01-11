@@ -1,76 +1,51 @@
 package unice.miage.projetsd.idcoin.database;
 
-import java.security.PublicKey;
-import java.util.ArrayList;
+import java.sql.*;
 
-import unice.miage.projetsd.idcoin.events.LoginEvent;
-import unice.miage.projetsd.idcoin.events.RegisterEvent;
+public class Database {
+    // JDBC driver name and database URL
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost/SD";
 
-public class Database{
-    /**
-     * Every usable collection name
-     */
-    private ArrayList<Object> bids;
+    //  Database credentials
+    static final String USER = "root";
+    static final String PASS = "";
 
-    /**
-     * database constructor.
-     *
-     * @param dbName name
-     */
-    public Database(String dbName) {
-        this.bids = new ArrayList<>();
+    private Connection connection;
+    private Statement statement;
+
+    public Database() {
+        try {
+            Class.forName(JDBC_DRIVER);
+            System.out.println("Connecting to database");
+            this.connection = DriverManager.getConnection(DB_URL, USER, PASS);
+            System.out.println("Connected");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Add every collections to current instance
-     */
-    public void importDb() {
+    private void insertObject(String name, String price){
+        try {
+            this.statement = this.connection.createStatement();
+            String sql = "INSERT INTO objects VALUES ('" + name + "', '"+ price + "')";
+            this.statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void addBid(Object bid){
-        this.bids.add(bid);
+    private void insertSell(String seller, String objectId){
+        try {
+            this.statement = this.connection.createStatement();
+            String sql = "INSERT INTO sells VALUES ('" + seller + "', "+ objectId + ")";
+            this.statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Check if user does not already exist in the database
-     *
-     * @param event registerEvent received by client
-     * @return true(not find), false(already in the db)
-     */
-    public boolean isValidRegistration(RegisterEvent event){
-        return true;
-    }
-
-
-    /**
-     * Check if user is in database or not
-     *
-     * @param event loginEvent received by client
-     * @return true(find), false(404)
-     */
-    public boolean isValidUser(LoginEvent event){
-        return true;
-    }
-    /**
-     * Add a user in database
-     *@param name name of the new user
-     *@param userName login of the new user
-     *@param password password for the new user
-     *@param pubKey public key of the new user
-     *
-     */
-    public void addUser(String name, String userName,String password,PublicKey pubKey){
-    }
-
-    /**
-     * Insert a Document into specified collection
-     *
-     * @param collectionName users
-     */
-    public void insertDocument(String collectionName){
-    }
-
-    public ArrayList<Object> getBids() {
-        return bids;
+    public void close() throws SQLException {
+        this.connection.close();
     }
 }

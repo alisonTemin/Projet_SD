@@ -1,7 +1,6 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
 import unice.miage.projetsd.idcoin.database.Database;
-import unice.miage.projetsd.idcoin.database.DatabaseItems;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ public class Blockchain {
 
     private ArrayList<Block> blocks;
     private ArrayList<Transaction> transactions;
+    private int difficulty = 2;
 
     private final int FeePerTransaction = Transaction.getTransactionFee();
 

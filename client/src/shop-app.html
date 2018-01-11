@@ -146,6 +146,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
+    import {  } from "keypair";
     class ShopApp extends Polymer.Element {
 
       static get is() { return 'shop-app'; }
@@ -216,30 +217,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         this.socket.on("loginSuccess", (event) => {
           console.log("loginSuccess !", event);
-          // TODO : Paper-toast ?
+
+          var fakeBid2 = {"user": "fake1", "price": 45};
+           this.socketFake.emit("place", JSON.stringify(fakeBid2));
+
+           var fakeBid3 = {"user": "fake2", "price": 60};
+           this.socketFake2.emit("place", JSON.stringify(fakeBid3));
+
           this.loginModal.close();
+          this.ceremonyModal.open();
         });
 
         this.socket.on("registerSuccess", (event) => {
            console.log("register ", event);
 
-           var fakeBid2 = {"user": "fake1", "price": 45};
-           this.socketFake.emit("place", JSON.stringify(fakeBid2));
-
-           var fakeBid3 = {"user": "fake2", "price": 60};
-           this.socketFake2.emit("place", JSON.stringify(fakeBid3));
         });
 
         this.socket.addEventListener("mine", function(event){
-          console.log("Starting to mine for emitter");
+          console.log("Starting to mine for emitter", event);
         });
 
         this.socketFake.addEventListener("mine", (event) => {
-          console.log("Starting to mine for fake 1");
+          console.log("Starting to mine for fake 1", event);
         });
 
         this.socketFake2.addEventListener("mine", (event) => {
-          console.log("Starting to mine for fake 2");
+          console.log("Starting to mine for fake 2", event);
         });
 
         this.socket.on("placeSuccess", (event) => {
@@ -263,6 +266,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         // ToDO : Check auth before open (stored token in localStorage)
         this.loginModal = this.shadowRoot.querySelector('#loginModal');
+        this.ceremonyModal = this.shadowRoot.querySelector("#ceremony");
         this.loginModal.open();
       }
 
@@ -276,6 +280,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         else
           return false;
 
+      }
+
+      generateKeyFor(user){
+        var rsaKey = cryptico.generateRSAKey(user, 1024);
+        var pubKey = cryptico.publicKeyString(rsaKey);
       }
 
       /**
