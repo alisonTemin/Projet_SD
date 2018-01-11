@@ -93,6 +93,9 @@ public class Socket {
                 (client, message, ackRequest) -> {
                     client.sendEvent("placeSuccess", this.blockchain.getBlocks());
                     this.db.addBid(message);
+                    if(this.db.getBids().size() == 2){
+                        this.server.getBroadcastOperations().sendEvent("mine", this.blockchain.getBlocks());
+                    }
                 });
 
         /*
