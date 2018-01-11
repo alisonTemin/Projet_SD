@@ -177,16 +177,15 @@ public class Socket {
          */
         this.server.addEventListener("bidEvent", String.class,
                 (client, message, ackRequest) -> {
-
-                    
-                    Block block = new Block(atomicNewIndex, genesis.getHash());
-
-                    Transaction tx = new Transaction(blockchain.getTransactions().size(), two.getHash(), "bid");
+                    int blocksNb = blockchain.getBlocks().size();
+                    Block block = new Block(blockchain.getBlocks().size(), blockchain.getBlocks().get(blocksNb).getHash());
+                    Transaction tx = new Transaction(blockchain.getTransactions().size(), block.getHash(), "bid");
                     Input i = new Input(tx.toHash(), 1, null, 200);
-
                     tx.addInput(i);
 
-                    this.blockchain.addBlock();
+                    this.blockchain.addTransaction(tx);
+
+                    this.blockchain.addBlock(block);
                     System.out.println("Bid event received : " + message);
                 });
 

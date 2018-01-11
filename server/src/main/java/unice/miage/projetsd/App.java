@@ -37,17 +37,13 @@ public class App
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
 
-        long newIndex = genesis.getIndex().incrementAndGet();
-        AtomicLong atomicNewIndex = new AtomicLong(newIndex);
-        Block two = new Block(atomicNewIndex, genesis.getHash());
+        Block two = new Block(blockchain.getBlocks().size(), genesis.getHash());
 
-        Transaction tx = new Transaction(0, two.getHash(), "bid");
-
-
+        /*Transaction tx = new Transaction(0, two.getHash(), "bid");
         Input i = new Input(tx.toHash(), 1, null, 200);
         tx.addInput(i);
 
-        //blockchain.addTransaction(tx);
+        blockchain.addTransaction(tx);*/
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
         setupDatabaseAndStart(blockchain);
     }

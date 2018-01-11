@@ -56,9 +56,7 @@ public class BlockchainTest
 
         this.fakeChain.addBlock(genesis);
 
-        long newIndex = genesis.getIndex().incrementAndGet();
-        AtomicLong atomicNewIndex = new AtomicLong(newIndex);
-        Block two = new Block(atomicNewIndex, genesis.getHash());
+        Block two = new Block(genesis.getIndex(), genesis.getHash());
 
         this.fakeChain.addBlock(two);
         assertTrue(this.fakeChain.getBlocks().size() > 1);

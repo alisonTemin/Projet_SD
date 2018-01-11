@@ -321,6 +321,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <p>It's not you, it's us :/</p>
     </paper-dialog>
 
+    <paper-dialog id="ceremony" modal>
+      <div id="bids">
+
+      </div>
+    </paper-dialog>
+
     <footer>
       <a href="#">Made by Miagists</a>
       <div class="demo-label">Fictive shop</div>
@@ -448,14 +454,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         this.socket.on("registerSuccess", (event) => {
            console.log("register ", event);
-           var fakeBid = {"object": "troll", "price": 30};
-           this.socket.emit("place", JSON.stringify(fakeBid));
-           debugger;
+
+           var fakeBid2 = {"user": "fake1", "price": 45};
+           this.socketFake.emit("place", JSON.stringify(fakeBid2));
+
+           var fakeBid3 = {"user": "fake2", "price": 60};
+           this.socketFake2.emit("place", JSON.stringify(fakeBid3));
         });
 
         this.socket.on("placeSuccess", (event) => {
           debugger;
            console.log("success starting modal with fake sockets ", event);
+        });
+
+        this.socketFake.on("placeSuccess", (event) => {
+          debugger;
+           console.log("Fake1 ", event);
+        });
+
+        this.socketFake2.on("placeSuccess", (event) => {
+          debugger;
+           console.log("Fke2 ", event);
         });
 
         /**
@@ -497,7 +516,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       /**
        * Send register event to socket
        * 
-       * TODO : Implement on server side
        */
       doRegister(username, password){
         this.loginModal.close();

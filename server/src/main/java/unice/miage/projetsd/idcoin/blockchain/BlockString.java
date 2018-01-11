@@ -8,14 +8,14 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class BlockString {
 
-    private final AtomicLong index;
+    private final int index;
     private final String previousHash;
     private final String timestamp;
     private String hash;
     private int turn;
     private ArrayList<Transaction> transactions;
 
-    public BlockString(AtomicLong index, String previousHash, String timestamp) {
+    public BlockString(int index, String previousHash, String timestamp) {
         this.index = index;
         this.previousHash = previousHash;
         this.timestamp = timestamp;
@@ -52,7 +52,7 @@ public class BlockString {
     /**
      * Getter Index
      */
-    public AtomicLong getIndex() {
+    public int getIndex() {
         return this.index;
     }
 

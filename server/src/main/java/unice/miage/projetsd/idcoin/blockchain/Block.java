@@ -14,7 +14,7 @@ public class Block {
     /**
      * Index of the block
      */
-    private final AtomicLong index;
+    private final int index;
 
     /**
      * Previous hash
@@ -47,7 +47,7 @@ public class Block {
      * @param index        Index
      * @param previousHash Hash of previous block, first is 0, 64bytes so long
      */
-    public Block(AtomicLong index, byte[] previousHash) {
+    public Block(int index, byte[] previousHash) {
         this.index = index;
         this.previousHash = previousHash;
         this.timestamp = new Timestamp(System.currentTimeMillis());
@@ -65,7 +65,7 @@ public class Block {
      * @param turn         Consensus step
      * @param transactions Transactions linked to this block
      */
-    public Block(AtomicLong index, byte[] previousHash, Timestamp timestamp, int turn, ArrayList<Transaction> transactions, byte[] hash) {
+    public Block(int index, byte[] previousHash, Timestamp timestamp, int turn, ArrayList<Transaction> transactions, byte[] hash) {
         this.index = index;
         this.previousHash = previousHash;
         this.timestamp = timestamp;
@@ -81,7 +81,7 @@ public class Block {
      */
     public byte[] toHash() {
         try {
-            this.hash = CryptoHelper.hash(this.index.toString() + Arrays.toString(this.previousHash) + this.timestamp + this.transactions + this.turn);
+            this.hash = CryptoHelper.hash(this.index + Arrays.toString(this.previousHash) + this.timestamp + this.transactions + this.turn);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -94,7 +94,7 @@ public class Block {
      * @return Block
      */
     public static Block genesis() {
-       return new Block(new AtomicLong(1), null);
+       return new Block(1, null);
     }
 
     @Override
@@ -119,14 +119,13 @@ public class Block {
         Gson gson = new Gson();
         BlockString blockstring = gson.fromJson(json, BlockString.class);
 
-        AtomicLong index = blockstring.getIndex();
         byte[] previousHash = blockstring.getPreviousHash().getBytes();
         Timestamp timestamp = new Timestamp(Long.parseLong(blockstring.getTimestamp()));
         byte[] hash = blockstring.getHash().getBytes();
         int turn = blockstring.getTurn();
         ArrayList<Transaction> transactions = blockstring.getTransactions();
 
-        Block block = new Block(index,previousHash,timestamp,turn, transactions, hash);
+        Block block = new Block(blockstring.getIndex(),previousHash,timestamp,turn, transactions, hash);
 
         //Block block = new Block(index,previousHash,timestamp, hash, turn, transactions);
         /*
@@ -148,7 +147,7 @@ public class Block {
     /**
      * Getter Index
      */
-    public AtomicLong getIndex() {
+    public int getIndex() {
         return this.index;
     }
 

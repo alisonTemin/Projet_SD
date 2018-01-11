@@ -66,9 +66,10 @@ public class Blockchain {
 
      */
     public void addBlock(Block block) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        if(this.blocks.size() == 0)
+        if(this.blocks.size() == 0){
+            System.out.println("Adding one block to the chain");
             this.blocks.add(block);
-        else
+        } else
             if(this.checkBlock(block, this.blocks.get(this.blocks.size() - 1)))
                 this.blocks.add(block);
             else
@@ -97,8 +98,8 @@ public class Blockchain {
 
         byte[] blockHash = newBlock.toHash();
 
-        long expected = previousBlock.getIndex().get();
-        long newBlockIndex = newBlock.getIndex().get();
+        long expected = previousBlock.getIndex();
+        long newBlockIndex = newBlock.getIndex();
 
         byte[] previousHash = previousBlock.getHash();
         byte[] newHash = newBlock.getHash();
@@ -142,7 +143,7 @@ public class Blockchain {
         // TODO : Here we will need to check the consensus turn - Remove TODO if it's ok
         boolean consensusTurnCheck = checkPOW("00","H-ette-moi");
         
-        if(consensusTurnCheck == false)
+        if(!consensusTurnCheck)
             throw new Error("Consensus turn invalid");
 
         return true;
@@ -153,12 +154,12 @@ public class Blockchain {
      *
      * @param transaction transaction to check
      */
-    public boolean checkTransaction(Transaction transaction){
+    private boolean checkTransaction(Transaction transaction){
         if(!transaction.check())
             throw new Error("Invalid transaction");
 
         for(Transaction tx : this.transactions){
-            if(transaction.getIndex().equals(tx.getIndex()))
+            if(transaction.getIndex() == tx.getIndex())
                 throw new Error("Transaction already in chain");
         }
 
@@ -195,7 +196,7 @@ public class Blockchain {
      * @throws NoSuchAlgorithmException 
      * @throws UnsupportedEncodingException 
      */
-    public boolean checkPOW(String proof, String message) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+    private boolean checkPOW(String proof, String message) throws NoSuchAlgorithmException, UnsupportedEncodingException{
     	boolean check;
     	int nbZero = proof.length();
     	byte[] hashMessage;
