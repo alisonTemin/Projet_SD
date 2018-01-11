@@ -151,12 +151,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get is() { return 'shop-app'; }
 
       static get properties() { return {
-        page: {
-          type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged'
-        },
-
         socket: {
           type: Object
         },
@@ -187,9 +181,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       ready() {
         super.ready();
-
-        // Custom elements polyfill safe way to indicate an element has been upgraded.
-        this.removeAttribute('unresolved');
 
         // Connect on Socket server
         this.socket = io('http://localhost:9002');
