@@ -32,7 +32,7 @@ public class Database {
     public int insertObject(String name, String price){
         try {
             this.statement = this.connection.createStatement();
-            String sql = "INSERT INTO objects VALUES ('" + name + "', '"+ price + "')";
+            String sql = "INSERT INTO objects (name, price) VALUES ('" + name + "', "+ price + ")";
             return this.statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class Database {
     public boolean insertSell(String seller, int objectId){
         try {
             this.statement = this.connection.createStatement();
-            String sql = "INSERT INTO sells VALUES ('" + seller + "', "+ objectId + ")";
+            String sql = "INSERT INTO sells (seller, objectId) VALUES ('" + seller + "', "+ objectId + ")";
             return this.statement.execute(sql);
         } catch (SQLException e) {
             e.printStackTrace();
