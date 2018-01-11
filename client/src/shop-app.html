@@ -436,6 +436,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.loginModal.close();
         });
 
+        this.socket.on("registerSuccess", (event) => {
+           console.log("register ", event);
+        });
+
         /**
          * @listens disconnect
          */
@@ -479,8 +483,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        */
       doRegister(username, password){
         this.loginModal.close();
-
-        console.warn("TODO Register : ", this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
+        debugger;
+        this.socket.emit("register", JSON.stringify({username: username, password: password}));
 
         return true;
       }
@@ -492,8 +496,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       // TODO : Switch page to register page
       onRegisterClick(){
-          if(this.checkUserLogin()) 
-          this.doRegister(this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
+          if(this.checkUserLogin())
+            this.doRegister(this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#passwordInput').value);
       }
 
       _routePageChanged(page) {

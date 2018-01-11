@@ -129,13 +129,11 @@ public class Database{
 
         MongoCollection coll = this.db.getCollection("users");
         BasicDBObject user = new BasicDBObject();
-        user.append("nomClient", userName);
-        user.append("loginClient", name);
-        user.append("passwordClient", password);
-        user.append("idClient", pubKey);
+        user.append("name", userName);
+        user.append("password", password);
+        user.append("id", pubKey);
 
         coll.insertOne(user);
-
     }
 
     /**

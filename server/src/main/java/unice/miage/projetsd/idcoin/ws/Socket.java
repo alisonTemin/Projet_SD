@@ -144,7 +144,7 @@ public class Socket {
          */
 
 
-        this.server.addEventListener("registerEvent", String.class,
+        this.server.addEventListener("register", String.class,
                 (client, message, ackRequest) -> {
                     // Wrapping stringified json
                     RegisterEvent registerEvent = (RegisterEvent) eW.convertEvent(message, RegisterEvent.class);
@@ -156,13 +156,12 @@ public class Socket {
                     PrivateKey privKey = pair.getPrivate();
                     PublicKey pubKey = pair.getPublic();
 
+                    //System.out.println("Regiter privKey" + privKey.toString());
                     // Check if user is in database
-                    if(this.db.isValidRegistration(registerEvent)){
-                        // Reply to client, he is authenticated now !
-                        this.db.addUser(registerEvent.getName(), registerEvent.getUsername(), registerEvent.getPassword(), pubKey);
-                        client.sendEvent("registration Success", "ok");
-                        client.sendEvent("private key", privKey);
-                    }
+                    // Reply to client, he is authenticated now !
+                    client.sendEvent("registerSuccess", privKey.toString());
+                    //System.out.println("User has registered");
+
                 });
 
 
