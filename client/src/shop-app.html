@@ -283,15 +283,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        * 
        * TODO : Implement on server side
        */
-      doLogin(username){
-        this.socket.emit("login", JSON.stringify({username: username, password: password}));
+      doLogin(username, item, price){
+        this.socket.emit("login", JSON.stringify({username: username, item: item, price: price}));
 
         return true;
       }
 
       onLoginClick(){
         if(this.checkUserLogin())
-          this.doLogin(this.shadowRoot.querySelector('#usernameInput').value);
+          this.doLogin(this.shadowRoot.querySelector('#usernameInput').value, this.shadowRoot.querySelector('#item').value, this.shadowRoot.querySelector('#price').value);
       }
     }
 

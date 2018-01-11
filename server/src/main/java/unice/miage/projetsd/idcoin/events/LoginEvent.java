@@ -10,9 +10,14 @@ public class LoginEvent {
      */
     private String username;
     /**
-     * @JSONProp password
+     * @JSONProp item
      */
-    private String password;
+    private String item;
+
+    /**
+     * @JSONProp price
+     */
+    private String price;
 
     /**
      * Get username
@@ -23,10 +28,18 @@ public class LoginEvent {
     }
 
     /**
-     * Get password
-     * @return password
+     * Get item
+     * @return item
      */
-    public String getPassword() {
-        return password;
+    public String getItem() {
+        return item;
+    }
+
+    /**
+     * Get price
+     * @return price
+     */
+    public String getPrice() {
+        return price;
     }
 }

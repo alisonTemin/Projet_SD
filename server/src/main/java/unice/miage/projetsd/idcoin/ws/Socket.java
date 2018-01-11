@@ -77,6 +77,8 @@ public class Socket {
                     // Wrapping stringified json
                     LoginEvent loginEvent = (LoginEvent) eW.convertEvent(message, LoginEvent.class);
 
+                    System.out.println("Starting new bid ceremony with item : " + loginEvent.getItem() + " | price : " + loginEvent.getPrice() + " for : "+ loginEvent.getUsername());
+                    System.out.println("Waiting for bids");
                     // Check if user is in database
                     if(this.db.isValidUser(loginEvent)){
                         // Reply to client, he is authenticated now !
