@@ -31,7 +31,7 @@ public class App
 
     private static void blockchainCeremony() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         // Blockchain testing
-        Blockchain blockchain = new Blockchain("troll");
+        Blockchain blockchain = new Blockchain();
 
         // The genesis is the first block of the chain ^^
         Block genesis = Block.genesis();
@@ -45,10 +45,9 @@ public class App
 
     private static void setupDatabaseAndStart(Blockchain blockchain){
         String nameDB = "biddata";
-        Database biddata = new Database(nameDB);
+        Database biddata = new Database();
 
         assert biddata != null;
-        biddata.importDb();
 
         Socket socketIO = new Socket("127.0.0.1", 9002, blockchain);
         socketIO.init();

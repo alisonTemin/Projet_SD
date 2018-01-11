@@ -9,9 +9,6 @@ import java.io.UnsupportedEncodingException;
 
 public class Blockchain {
 
-    private final Database blocksDb;
-    private final Database transactionsDb;
-
     private ArrayList<Block> blocks;
     private ArrayList<Transaction> transactions;
     private int difficulty = 2;
@@ -20,12 +17,9 @@ public class Blockchain {
 
     /**
      * Blockchain constructor
-     * @param dbName database name
      */
     @SuppressWarnings("unchecked")
-    public Blockchain(String dbName) {
-       this.blocksDb = new Database(dbName);
-       this.transactionsDb = new Database(dbName);
+    public Blockchain() {
        this.blocks = new ArrayList<>();
        this.transactions = new ArrayList<>();
     }

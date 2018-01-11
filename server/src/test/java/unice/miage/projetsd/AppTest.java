@@ -38,7 +38,7 @@ public class AppTest
      * Rigourous Test :-)
      */
     public void testApp() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        Blockchain blockchain = new Blockchain("troll");
+        Blockchain blockchain = new Blockchain();
         Block genesis = Block.genesis();
         blockchain.addBlock(genesis);
         assertTrue(blockchain.getBlocks().size() > 0);

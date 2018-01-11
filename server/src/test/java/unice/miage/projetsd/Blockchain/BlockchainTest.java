@@ -31,7 +31,7 @@ public class BlockchainTest
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        this.fakeChain = new Blockchain("troll");
+        this.fakeChain = new Blockchain();
     }
 
     /**

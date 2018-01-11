@@ -79,8 +79,9 @@ public class Socket {
 
                     System.out.println("Starting new bid ceremony with item : " + loginEvent.getItem() + " | price : " + loginEvent.getPrice() + " for : "+ loginEvent.getUsername());
                     System.out.println("Waiting for bids");
+                    int objectId = this.db.insertObject(loginEvent.getItem(), loginEvent.getPrice());
                     // Check if user is in database
-                    if(this.db.isValidUser(loginEvent)){
+                    if(this.db.insertSell(loginEvent.getUsername(), objectId)){
                         // Reply to client, he is authenticated now !
                         client.sendEvent("loginSuccess", "ok");
                     }
