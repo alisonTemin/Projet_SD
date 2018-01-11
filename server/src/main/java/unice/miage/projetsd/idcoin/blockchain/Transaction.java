@@ -12,7 +12,7 @@ public class Transaction {
     /**
      * ID of the transaction
      */
-    private final AtomicLong id;
+    private final int id;
     /**
      * Hash
      */
@@ -45,7 +45,7 @@ public class Transaction {
      * @param hash      Hash of the transaction
      * @param type      Type of the transaction
      */
-    public Transaction(AtomicLong id, byte[] hash, String type){
+    public Transaction(int id, byte[] hash, String type){
         this.id = id;
         this.hash = hash;
         this.type = type;
@@ -62,7 +62,7 @@ public class Transaction {
      * @param inputs    Inputs
      * @param outputs   Outputs
      */
-    private Transaction(AtomicLong id, byte[] hash, String type, ArrayList<Input> inputs, ArrayList<Output> outputs){
+    private Transaction(int id, byte[] hash, String type, ArrayList<Input> inputs, ArrayList<Output> outputs){
         this.id = id;
         this.hash = hash;
         this.type = type;
@@ -142,7 +142,7 @@ public class Transaction {
         Gson gson = new Gson();
         TransactionString transactionString = gson.fromJson(json, TransactionString.class);
 
-        AtomicLong id = transactionString.getIndex();
+        int id = transactionString.getIndex();
         byte[] hash = transactionString.getHash().getBytes();
         String type = transactionString.getType();
         ArrayList<Input> inputs = transactionString.getInputs();
@@ -180,7 +180,7 @@ public class Transaction {
     /**
      * Getter Id
      */
-    public AtomicLong getIndex() {
+    public int getIndex() {
         return id;
     }
 }

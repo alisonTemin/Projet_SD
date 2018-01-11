@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class TransactionString {
 
 
-    private final AtomicLong id;
+    private final int id;
     private String hash;
     private final String type;
     private ArrayList<Input> inputs;
@@ -18,7 +18,7 @@ public class TransactionString {
     private final int feePerTransaction = 1;
 
 
-    private TransactionString(AtomicLong id, String hash, String type, ArrayList<Input> inputs, ArrayList<Output> outputs){
+    private TransactionString(int id, String hash, String type, ArrayList<Input> inputs, ArrayList<Output> outputs){
         this.id = id;
         this.hash = hash;
         this.type = type;
@@ -64,7 +64,7 @@ public class TransactionString {
     /**
      * Getter Id
      */
-    public AtomicLong getIndex() {
+    public int getIndex() {
         return id;
     }
 }

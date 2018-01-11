@@ -3,13 +3,17 @@ package unice.miage.projetsd.idcoin.ws;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 
+import unice.miage.projetsd.idcoin.blockchain.Block;
+import unice.miage.projetsd.idcoin.blockchain.Blockchain;
+import unice.miage.projetsd.idcoin.blockchain.Input;
+import unice.miage.projetsd.idcoin.blockchain.Transaction;
 import unice.miage.projetsd.idcoin.database.Database;
 import unice.miage.projetsd.idcoin.events.EventWrapper;
 import unice.miage.projetsd.idcoin.events.LoginEvent;
 import unice.miage.projetsd.idcoin.events.RegisterEvent;
 
-import javax.xml.crypto.Data;
 import java.security.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * SocketIO
@@ -22,16 +26,18 @@ public class Socket {
     private Configuration config;
     private EventWrapper eW;
     private Database db;
+    private Blockchain blockchain;
 
     /**
      * Socket constructor.
      * @param hostname localhost
      * @param port 9003
      */
-    public Socket(String hostname, int port){
+    public Socket(String hostname, int port, Blockchain blockchain){
         this.hostname = hostname;
         this.port = port;
         this.eW = new EventWrapper();
+        this.blockchain = blockchain;
     }
 
     /**
@@ -83,9 +89,10 @@ public class Socket {
          * Mise en enchère d'un objet
          */
 
-        this.server.addEventListener("placeObjectEvent", String.class,
+        this.server.addEventListener("place", String.class,
                 (client, message, ackRequest) -> {
-                    System.out.println("Object placed in bid : " + message);
+                    client.sendEvent("placeSuccess", this.blockchain.getBlocks());
+                    this.db.addBid(message);
                 });
 
         /*
@@ -159,9 +166,7 @@ public class Socket {
                     //System.out.println("Regiter privKey" + privKey.toString());
                     // Check if user is in database
                     // Reply to client, he is authenticated now !
-                    client.sendEvent("registerSuccess", privKey.toString());
-                    //System.out.println("User has registered");
-
+                    client.sendEvent("registerSuccess", privKey.getFormat());
                 });
 
 
@@ -172,6 +177,16 @@ public class Socket {
          */
         this.server.addEventListener("bidEvent", String.class,
                 (client, message, ackRequest) -> {
+
+                    
+                    Block block = new Block(atomicNewIndex, genesis.getHash());
+
+                    Transaction tx = new Transaction(blockchain.getTransactions().size(), two.getHash(), "bid");
+                    Input i = new Input(tx.toHash(), 1, null, 200);
+
+                    tx.addInput(i);
+
+                    this.blockchain.addBlock();
                     System.out.println("Bid event received : " + message);
                 });
 

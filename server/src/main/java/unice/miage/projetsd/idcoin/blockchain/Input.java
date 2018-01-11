@@ -11,7 +11,7 @@ public class Input {
      * @param index
      * @param amount
      */
-    public Input(byte[] previousTxHash, AtomicLong index, PublicKey address, long amount){
+    public Input(byte[] previousTxHash, int index, PublicKey address, long amount){
         this.address = address;
         this.previousTxHash = previousTxHash;
         this.index = index;
@@ -24,7 +24,7 @@ public class Input {
     /**
      * index of the transaction taken from a previous unspent transaction output
      */
-    private AtomicLong index;
+    private int index;
     /**
      * Amount engaged
      */
@@ -42,7 +42,7 @@ public class Input {
         return this.previousTxHash;
     }
 
-    public AtomicLong getIndex() {
+    public int getIndex() {
         return index;
     }
 

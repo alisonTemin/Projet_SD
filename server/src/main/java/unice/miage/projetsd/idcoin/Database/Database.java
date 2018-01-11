@@ -42,6 +42,8 @@ public class Database{
      */
     private MongoClientURI uri;
 
+    private ArrayList<Object> bids;
+
     /**
      * Instance collections
      */
@@ -66,6 +68,10 @@ public class Database{
         for(String coll : this.collectionsNames){
             collections.add(this.db.getCollection(coll));
         }
+    }
+
+    public void addBid(Object bid){
+        this.bids.add(bid);
     }
 
     /**

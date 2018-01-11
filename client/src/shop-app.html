@@ -352,6 +352,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: Object
         },
 
+        socketFake: {
+          type: Object
+        },
+
+        socketFake2: {
+          type: Object
+        },
+
         _shouldShowTabs: {
           computed: '_computeShouldShowTabs(page, smallScreen)'
         },
@@ -402,6 +410,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         // Connect on Socket server
         this.socket = io('http://localhost:9002');
+        this.socketFake = io('http://localhost:9002');
+        this.socketFake2 = io('http://localhost:9002');
         /**
          * @listens connect
          */
@@ -438,6 +448,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         this.socket.on("registerSuccess", (event) => {
            console.log("register ", event);
+           var fakeBid = {"object": "troll", "price": 30};
+           this.socket.emit("place", JSON.stringify(fakeBid));
+           debugger;
+        });
+
+        this.socket.on("placeSuccess", (event) => {
+          debugger;
+           console.log("success starting modal with fake sockets ", event);
         });
 
         /**

@@ -24,7 +24,6 @@ public class App
         }
 
         // Setup database in memory, start socketIO instance
-        setupDatabaseAndStart();
 
 
 
@@ -42,24 +41,25 @@ public class App
         AtomicLong atomicNewIndex = new AtomicLong(newIndex);
         Block two = new Block(atomicNewIndex, genesis.getHash());
 
-        Transaction tx = new Transaction(new AtomicLong(0), two.getHash(), "bid");
+        Transaction tx = new Transaction(0, two.getHash(), "bid");
 
 
-        Input i = new Input(tx.toHash(), new AtomicLong(1), null, 200);
+        Input i = new Input(tx.toHash(), 1, null, 200);
         tx.addInput(i);
 
         //blockchain.addTransaction(tx);
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
+        setupDatabaseAndStart(blockchain);
     }
 
-    private static void setupDatabaseAndStart(){
+    private static void setupDatabaseAndStart(Blockchain blockchain){
         String nameDB = "biddata";
         Database biddata = new Database(nameDB);
 
         assert biddata != null;
         biddata.importDb();
 
-        Socket socketIO = new Socket("127.0.0.1", 9002);
+        Socket socketIO = new Socket("127.0.0.1", 9002, blockchain);
         socketIO.init();
         socketIO.setListeners();
         socketIO.start();
