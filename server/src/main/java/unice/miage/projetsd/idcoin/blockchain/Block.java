@@ -2,6 +2,7 @@ package unice.miage.projetsd.idcoin.blockchain;
 
 import com.google.gson.Gson;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,7 +51,8 @@ public class Block {
     public Block(int index, byte[] previousHash) {
         this.index = index;
         this.previousHash = previousHash;
-        this.timestamp = new Timestamp(System.currentTimeMillis());
+        Date date = new Date(System.currentTimeMillis());
+        this.timestamp = new Timestamp(date.getTime());
         this.transactions = new ArrayList<>();
     }
 
@@ -100,12 +102,12 @@ public class Block {
     @Override
     public String toString() {
         return "{" +
-                "\"index\"=" + index +
-                ", \"previousHash\"=" + Arrays.toString(previousHash) +
-                ", \"timestamp\"=" + timestamp +
-                ", \"hash\"=" + Arrays.toString(hash) +
-                ", \"turn\"=" + turn +
-                ", \"transactions\"=" + transactions +
+                "\"index\":" + index +
+                ", \"previousHash\":" + Arrays.toString(previousHash) +
+                ", \"timestamp\":" + timestamp.getTime() +
+                ", \"hash\":" + Arrays.toString(hash) +
+                ", \"turn\":" + turn +
+                ", \"transactions\":" + transactions +
                 '}';
     }
 
