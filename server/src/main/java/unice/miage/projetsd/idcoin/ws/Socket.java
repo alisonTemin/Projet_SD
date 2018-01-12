@@ -4,28 +4,19 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 
+import com.sun.deploy.net.proxy.RemoveCommentReader;
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Blockchain;
 import unice.miage.projetsd.idcoin.blockchain.Input;
 import unice.miage.projetsd.idcoin.blockchain.Transaction;
 import unice.miage.projetsd.idcoin.database.Database;
-import unice.miage.projetsd.idcoin.events.EventWrapper;
-import unice.miage.projetsd.idcoin.events.LoginEvent;
-import unice.miage.projetsd.idcoin.events.PubKeyEvent;
-import unice.miage.projetsd.idcoin.events.RegisterEvent;
+import unice.miage.projetsd.idcoin.events.*;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * SocketIO
@@ -81,6 +72,9 @@ public class Socket {
                 });
 
 
+        /*
+         * @listens publickey
+         */
         this.server.addEventListener("publickey", String.class, (client, message, ackRrequest) -> {
             PubKeyEvent newKey = (PubKeyEvent) eW.convertEvent(message, PubKeyEvent.class);
             System.out.println("Received new public key for " + newKey.getEmitter() + " | Key :"+newKey.getKey());
@@ -112,10 +106,9 @@ public class Socket {
 
 
         /*
-         * @listens placeObjectEvent
+         * @listens place
          * Mise en enchère d'un objet
          */
-
         this.server.addEventListener("place", String.class,
                 (client, message, ackRequest) -> {
                     client.sendEvent("placeSuccess", this.blockchain.getBlocks());
@@ -131,10 +124,12 @@ public class Socket {
          * @listens removeObjectEvent
          * Objet retiré des enchères(manuellement par l'utilisateur qui l'a posté)
          */
-
         this.server.addEventListener("removeObjectEvent", String.class,
                 (client, message, ackRequest) -> {
-                    System.out.println("Object removed from the bid : " + message);
+                    RemoveEvent removeEvent = (RemoveEvent) eW.convertEvent(message, RemoveEvent.class);
+
+                    if(this.db.deleteSell(removeEvent.getId()))
+                        System.out.println("Object removed from the bid : " + message);
                 });
 
         /*
@@ -229,7 +224,7 @@ public class Socket {
         });
     }
 
-    public void askEverybodyToMineExcept(SocketIOClient client){
+    private void askEverybodyToMineExcept(SocketIOClient client){
         for(SocketIOClient cli : this.server.getAllClients()){
             if(!cli.equals(client)){
                 cli.sendEvent("mine", this.blockchain.getBlocks());

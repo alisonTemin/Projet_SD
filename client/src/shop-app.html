@@ -261,6 +261,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         this.socket.addEventListener("mine", function(event){
           console.log("Starting to mine for emitter", event);
+          // mine();
         });
 
         this.socketFake.addEventListener("mine", (event) => {
@@ -305,6 +306,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           return true;
         else
           return false;
+
+      }
+
+      mine(block){
 
       }
 

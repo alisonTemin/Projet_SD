@@ -6,7 +6,6 @@ import unice.miage.projetsd.idcoin.ws.Socket;
 
 import java.io.UnsupportedEncodingException;
 import java.security.*;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Launching the money, and everything related

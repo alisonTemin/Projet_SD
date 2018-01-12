@@ -49,6 +49,21 @@ public class Database {
         }
     }
 
+    public boolean deleteSell(int sellId){
+        try {
+            this.statement = this.connection.prepareStatement("DELETE FROM sells WHERE id = ?");
+            this.statement.setInt(1, sellId);
+
+            if(this.statement.executeUpdate() != 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     public boolean insertSell(String seller, long objectId){
         try {
             this.statement = this.connection.prepareStatement("INSERT INTO sells (seller, objectId) VALUES (?,?)");

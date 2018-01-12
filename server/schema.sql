@@ -27,4 +27,9 @@ ALTER TABLE `sells`
 
 ALTER TABLE `sells`
   ADD CONSTRAINT `sells_ibfk_1` FOREIGN KEY (`objectId`) REFERENCES `objects` (`id`);
+
+ALTER TABLE `sells` DROP FOREIGN KEY `sells_ibfk_1`;
+ALTER TABLE `sells`
+  ADD CONSTRAINT `sells_ibfk_1` FOREIGN KEY (`objectId`) REFERENCES `objects`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
 COMMIT;
