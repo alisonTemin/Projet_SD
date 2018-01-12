@@ -227,12 +227,14 @@ public class Socket {
 
     private StringBuilder getBidAsJSON() {
         StringBuilder sb = new StringBuilder("[");
-        int bidsCount = this.db.getBids().size();
+        int bidsCount = this.db.getBids().size() - 1;
         int i = 0;
         for(String bids : this.db.getBids()){
             sb.append(bids);
-            if(i < bidsCount)
+            if(i != bidsCount)
                 sb.append(",");
+
+            i++;
         }
         sb.append("]");
         return sb;
@@ -242,7 +244,8 @@ public class Socket {
         for(SocketIOClient cli : this.server.getAllClients()){
             if(!cli.equals(client)){
                 StringBuilder sb = this.getBidAsJSON();
-                client.sendEvent("mine", this.getBlockchain() +"|" + this.getLatestBlock() + "|" + sb.toString());            }
+                cli.sendEvent("mine", this.getBlockchain() +"|" + this.getLatestBlock() + "|" + sb.toString());
+            }
         }
     }
 

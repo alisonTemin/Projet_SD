@@ -160,12 +160,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       addBlock(newBlock, previousHash) {
         newBlock.previousHash = previousHash;
-        newBlock.mineBlock(this.difficulty);
-        this.chain.push(newBlock);
+        if(newBlock.mineBlock(this.difficulty)){
+          this.chain.push(newBlock);
+          console.log("Block mined" + newBlock.hash);
+        }
       }
 
       calculateHash() {
-          return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
+          return sha256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
       }
 
       mineBlock(difficulty) {
@@ -173,7 +175,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               this.nonce++;
               this.hash = this.calculateHash();
           }
-          console.log("BLOCK MINED: " + this.hash);
+          return true;
       }
     }
     
@@ -292,20 +294,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.socket.addEventListener("mine", function(event){
           console.log("Starting to mine for emitter", event);
           var objects = event.split("|");
+          var i = 0;
+          var chain = [];
+          var previous = null;
+          var data = null;
           for(var obj in objects){
-            console.log(JSON.parse(objects[obj]));
+            if(i === 0)
+              chain.push(JSON.parse(objects[obj]));
+            else if(i === 1)
+              previous = JSON.parse(objects[obj]);
+            else
+              data = JSON.parse(objects[obj]);
+            
+            i++;
           }
-          debugger;
-          var block = new Block(event.index, new Date().getTime())
-          // mine();
+
+          var block = new Block(event.index, Date.now() / 1000 | 0, data, previous.previousHash, chain);
+          block.addBlock(block);
         });
 
         this.socketFake.addEventListener("mine", (event) => {
-          console.log("Starting to mine for fake 1", event);
+          //console.log("Starting to mine for fake 1", event);
         });
 
         this.socketFake2.addEventListener("mine", (event) => {
-          console.log("Starting to mine for fake 2", event);
+          //console.log("Starting to mine for fake 2", event);
         });
 
         this.socket.on("placeSuccess", (event) => {
