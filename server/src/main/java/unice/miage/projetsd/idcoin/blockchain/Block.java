@@ -100,12 +100,12 @@ public class Block {
     @Override
     public String toString() {
         return "{" +
-                "index=" + index +
-                ", previousHash=" + Arrays.toString(previousHash) +
-                ", timestamp=" + timestamp +
-                ", hash=" + Arrays.toString(hash) +
-                ", turn=" + turn +
-                ", transactions=" + transactions +
+                "\"index\"=" + index +
+                ", \"previousHash\"=" + Arrays.toString(previousHash) +
+                ", \"timestamp\"=" + timestamp +
+                ", \"hash\"=" + Arrays.toString(hash) +
+                ", \"turn\"=" + turn +
+                ", \"transactions\"=" + transactions +
                 '}';
     }
 
