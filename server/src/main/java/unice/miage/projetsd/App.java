@@ -21,11 +21,6 @@ public class App
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-
-        // Setup database in memory, start socketIO instance
-
-
-
     }
 
     private static void blockchainCeremony() throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -39,11 +34,12 @@ public class App
         Block two = new Block(blockchain.getBlocks().size(), genesis.getHash());
 
         System.out.println( "Blockchain started : " + blockchain.checkBlock(two, genesis) );
+
+        // Setup database in memory, start socketIO instance
         setupDatabaseAndStart(blockchain);
     }
 
     private static void setupDatabaseAndStart(Blockchain blockchain){
-        String nameDB = "biddata";
         Database biddata = new Database();
 
         assert biddata != null;

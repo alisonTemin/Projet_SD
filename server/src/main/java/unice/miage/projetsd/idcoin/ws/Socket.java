@@ -115,7 +115,8 @@ public class Socket {
                     this.db.addBid(message);
                     if(this.db.getBids().size() >= 2){
                         System.out.println("Asking to mine");
-                        client.sendEvent("mine", this.getBlockchain() + "|" + this.getLatestBlock());
+                        StringBuilder sb = this.getBidAsJSON();
+                        client.sendEvent("mine", this.getBlockchain() +"|" + this.getLatestBlock() + "|" + sb.toString());
                         this.askEverybodyToMineExcept(client);
                     }
                 });
@@ -224,11 +225,24 @@ public class Socket {
         });
     }
 
+    private StringBuilder getBidAsJSON() {
+        StringBuilder sb = new StringBuilder("[");
+        int bidsCount = this.db.getBids().size();
+        int i = 0;
+        for(String bids : this.db.getBids()){
+            sb.append(bids);
+            if(i < bidsCount)
+                sb.append(",");
+        }
+        sb.append("]");
+        return sb;
+    }
+
     private void askEverybodyToMineExcept(SocketIOClient client){
         for(SocketIOClient cli : this.server.getAllClients()){
             if(!cli.equals(client)){
-                cli.sendEvent("mine", this.getBlockchain() + "|" + this.getLatestBlock());
-            }
+                StringBuilder sb = this.getBidAsJSON();
+                client.sendEvent("mine", this.getBlockchain() +"|" + this.getLatestBlock() + "|" + sb.toString());            }
         }
     }
 

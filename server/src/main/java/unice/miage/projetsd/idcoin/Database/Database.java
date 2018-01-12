@@ -12,7 +12,7 @@ public class Database {
     static final String USER = "root";
     static final String PASS = "";
 
-    private ArrayList<Object> bids;
+    private ArrayList<String> bids;
 
     private Connection connection;
     private PreparedStatement statement;
@@ -80,11 +80,11 @@ public class Database {
         this.connection.close();
     }
 
-    public void addBid(Object bid){
+    public void addBid(String bid){
         this.bids.add(bid);
     }
 
-    public ArrayList<Object> getBids() {
+    public ArrayList<String> getBids() {
         return bids;
     }
 }
