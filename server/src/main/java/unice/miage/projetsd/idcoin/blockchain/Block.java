@@ -99,7 +99,7 @@ public class Block {
 
     @Override
     public String toString() {
-        return "Block{" +
+        return "{" +
                 "index=" + index +
                 ", previousHash=" + Arrays.toString(previousHash) +
                 ", timestamp=" + timestamp +

@@ -1,7 +1,5 @@
 package unice.miage.projetsd.idcoin.blockchain;
 
-import unice.miage.projetsd.idcoin.database.Database;
-
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,9 +52,7 @@ public class Blockchain {
     /**
      * Add a block
      *
-     * A block is added to the block list:
-
-
+     * A block is added to the block list
      */
     public void addBlock(Block block) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if(this.blocks.size() == 0){
@@ -173,7 +169,7 @@ public class Blockchain {
         return inputs.size() == outputs.size();
     }
 
-    /*private boolean checkPOW(String proof, String message) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+    private boolean checkPOW(String proof, String message) throws NoSuchAlgorithmException, UnsupportedEncodingException{
     	boolean check;
     	int nbZero = proof.length();
     	byte[] hashMessage;
@@ -196,7 +192,7 @@ public class Blockchain {
 
 
     	return check;
-    }*/
+    }
     
     
 }

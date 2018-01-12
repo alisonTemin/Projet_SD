@@ -4,7 +4,6 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 
-import com.sun.deploy.net.proxy.RemoveCommentReader;
 import unice.miage.projetsd.idcoin.blockchain.Block;
 import unice.miage.projetsd.idcoin.blockchain.Blockchain;
 import unice.miage.projetsd.idcoin.blockchain.Input;
@@ -17,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.security.*;
+import java.util.Arrays;
 
 /**
  * SocketIO
@@ -113,9 +113,9 @@ public class Socket {
                 (client, message, ackRequest) -> {
                     client.sendEvent("placeSuccess", this.blockchain.getBlocks());
                     this.db.addBid(message);
-                    if(this.db.getBids().size() == 2){
+                    if(this.db.getBids().size() >= 2){
                         System.out.println("Asking to mine");
-                        client.sendEvent("mine", this.blockchain.getBlocks());
+                        client.sendEvent("mine", this.getBlockchain() + "|" + this.getLatestBlock());
                         this.askEverybodyToMineExcept(client);
                     }
                 });
@@ -227,7 +227,7 @@ public class Socket {
     private void askEverybodyToMineExcept(SocketIOClient client){
         for(SocketIOClient cli : this.server.getAllClients()){
             if(!cli.equals(client)){
-                cli.sendEvent("mine", this.blockchain.getBlocks());
+                cli.sendEvent("mine", this.getBlockchain() + "|" + this.getLatestBlock());
             }
         }
     }
@@ -239,6 +239,21 @@ public class Socket {
     public void start(){
         this.server.start();
     }
+
+    public String getBlockchain(){
+        StringBuilder sb = new StringBuilder();
+
+        for(Block b : this.blockchain.getBlocks()){
+            sb.append(b.toString());
+        }
+
+        return sb.toString();
+    }
+
+    public String getLatestBlock(){
+        return this.blockchain.getBlocks().get(this.blockchain.getBlocks().size()-1).toString();
+    }
+
 
     /**
      * Set database instance

@@ -146,6 +146,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
+    class Block {
+      constructor(index, timestamp, data, previousHash = '', chain) {
+          this.index = index;
+          this.previousHash = previousHash;
+          this.timestamp = timestamp;
+          this.data = data;
+          this.hash = this.calculateHash();
+          this.nonce = 0;
+          this.chain = chain;
+          this.difficulty = 2;
+      }
+
+      addBlock(newBlock, previousHash) {
+        newBlock.previousHash = previousHash;
+        newBlock.mineBlock(this.difficulty);
+        this.chain.push(newBlock);
+      }
+
+      calculateHash() {
+          return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
+      }
+
+      mineBlock(difficulty) {
+          while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
+              this.nonce++;
+              this.hash = this.calculateHash();
+          }
+          console.log("BLOCK MINED: " + this.hash);
+      }
+    }
+    
     class ShopApp extends Polymer.Element {
 
       static get is() { return 'shop-app'; }
@@ -256,11 +287,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         this.socket.on("registerSuccess", (event) => {
            console.log("register ", event);
-
         });
 
         this.socket.addEventListener("mine", function(event){
           console.log("Starting to mine for emitter", event);
+          var objects = event.split("|");
+          for(var obj in objects){
+            console.log(JSON.parse(objects[obj]));
+          }
+          debugger;
+          var block = new Block(event.index, new Date().getTime())
           // mine();
         });
 
