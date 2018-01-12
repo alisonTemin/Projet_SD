@@ -71,9 +71,9 @@ public class Socket {
                 });
 
 
-        this.server.addEventListener("pubKey", String.class, (client, message, ackRrequest) -> {
+        this.server.addEventListener("publickey", String.class, (client, message, ackRrequest) -> {
             PubKeyEvent newKey = (PubKeyEvent) eW.convertEvent(message, PubKeyEvent.class);
-            System.out.println("Received new public key for" + newKey.getEmitter());
+            System.out.println("Received new public key for " + newKey.getEmitter() + " | Key :"+newKey.getKey());
         });
 
         /*

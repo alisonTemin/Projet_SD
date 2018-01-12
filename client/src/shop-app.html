@@ -222,30 +222,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.socket.on("loginSuccess", (event) => {
           console.log("loginSuccess !", event);
 
-          this.socket.emit("pubKey", {key: `-----BEGIN PUBLIC KEY-----
+          this.socket.emit("publickey", JSON.stringify({key: `-----BEGIN PUBLIC KEY-----
               MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzV8pcEGkb/hDZykWLHYia2hfq
               c6N9lfUoWcTarnJkh1MTweaECHpECq/83FbK3xOZ5+riQUCSr86oTgro0m2XuhVq
               174K/IL5QdBov8jSoZ7cjD4QgfFDf0MnVpbCyCIBqYiTrEasbQ1HhP4x3GPu0skH
               8KpAQUgwtHHkp9MJyQIDAQAB
-              -----END PUBLIC KEY-----`, emitter: "emitter"});
+              -----END PUBLIC KEY-----`, emitter: "emitter"}));
 
             var fakeBid2 = {"user": "fake1", "price": 45};
 
-           this.socketFake.emit("pubKey", {key: `-----BEGIN PUBLIC KEY-----
+           this.socketFake.emit("publickey", JSON.stringify({key: `-----BEGIN PUBLIC KEY-----
             MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzOhqUBk01yV3DJ1NO7t11/rfl
             y5bWKg7CM4CghhBo3KrrLH4WNTpz4qkhENwN8PMlX4brhCSi4RmHhJztb2yza0AG
             +3J8jL5RC4Qw1cgnk+nJOiIZRtxX8vUs3rlUirvMTcICISgmnICUY8mTpAdPlW4i
             Wxul0mFeGTomoj030wIDAQAB
-            -----END PUBLIC KEY-----`, emitter: "fake"});
+            -----END PUBLIC KEY-----`, emitter: "fake"}));
 
             this.socketFake.emit("place", JSON.stringify(fakeBid2));
 
-            this.socketFake2.emit("pubKey", {key: `-----BEGIN PUBLIC KEY-----
+            this.socketFake2.emit("publiclkey", JSON.stringify({key: `-----BEGIN PUBLIC KEY-----
             MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDYSZceal4ee4N07P6p6DsHFaCU
             Zjhh7RyL/XUfR7FfAL/ktCNx+m3mSqK5jhj/P1XQvVteV7kf9m/vbFElz3Jds1LA
             A/oaVEfPN+OKYGERO5mGESeKRZi3stkcowhqY3q8SU0qeipwK/5X2ilnPERfKASE
             LA1rJqqMky9yhAc4LQIDAQAB
-            -----END PUBLIC KEY-----`, emitter: "fake2"});
+            -----END PUBLIC KEY-----`, emitter: "fake2"}));
 
            var fakeBid3 = {"user": "fake2", "price": 60};
            this.socketFake2.emit("place", JSON.stringify(fakeBid3));
