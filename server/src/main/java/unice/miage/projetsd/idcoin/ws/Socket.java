@@ -14,7 +14,17 @@ import unice.miage.projetsd.idcoin.events.LoginEvent;
 import unice.miage.projetsd.idcoin.events.PubKeyEvent;
 import unice.miage.projetsd.idcoin.events.RegisterEvent;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -74,6 +84,12 @@ public class Socket {
         this.server.addEventListener("publickey", String.class, (client, message, ackRrequest) -> {
             PubKeyEvent newKey = (PubKeyEvent) eW.convertEvent(message, PubKeyEvent.class);
             System.out.println("Received new public key for " + newKey.getEmitter() + " | Key :"+newKey.getKey());
+
+            String path =  "keys/" + newKey.getEmitter()+ ".pem";
+            try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(path), "utf-8"))) {
+                writer.write(newKey.getKey());
+            }
         });
 
         /*
